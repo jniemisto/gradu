@@ -1,0 +1,37 @@
+\section{Toiminnallinen testaus}
+
+Robotium vs. monkeyrunner
+
+\subsection{Robotium}
+
+Robotium ei tule Androidin sdk:n mukana, mutta se on paljon käytetty testityökalu Android-sovellusten testauksessa. Robotiumin slogan on, että se on kuin Selenium, mutta Androidille. Selenium taas on laajasti integraatio- ja funktionaalisessa testauksessa käytetty työkalu, joka mahdollistaa selaimen toimintojen automatisoimisen, kuten linkkien klikkauksen, lomakekenttien täyttämisen jne. \cite{selenium}
+
+Robotium on tarkoitettu Android-sovellusten funktionaaliseen-, systeemi- ja hyväksyntätestaukseen. Se on black box -työkalu, eli testin kirjoittajan ei tarvitse päästä käsiksi tai tuntea testattavan sovelluksen koodia. Robotium-testit voivat testata samassa testitapauksessa useita aktiviteetteja. Robotium-testeissä annetaan ohjeita, missä järjestyksessä käyttöliittymäelementtejä klikataan tai syötetään tekstiä.
+
+Robotiumtestejä voi ajaa niin emulaattorissa kuin puhelimessakin. Testit eivät kuitenkaan voi käsitellä kahta eri sovellusta, eli yksi testitapaus voi käsitellä vain yhtä sovellusta. Tällöin sovellustenvälinen integraatiotestaus ei ole mahdollista.
+
+Robotiumin sivuilla sille esitellään useita vahvuuksia Android SDK:n mukana tuleviin työkaluihin verrattuna. Testit vaativat vain vähäistä tuntemusta testattavasta sovelluksesta, Robotium tukee usean aktiviteetin testaamiseta samassa testissä, testien kirjoittamisen nopeus, testikoodin selkeys ja sitkeys, joka johtuu ajoaikaisesta sidonnasta käyttöliittymäkomponentteihin, nopea suoritusnopeus ja helppo integrointi jatkuvan integroinnin työkaluihin Antin tai Mavenin avulla. (pitäisikö ant/maven esitellä jossain?) \cite{robotium}
+
+\subsection{Troyd}
+
+Troyd on Robotiumia käyttäen tehty integraatiotestaustyökalu, jonka tavoite on yhdistää Monkeyn skriptausominaisuudet ja Robotiumin tarjoama korkean tason API. Troyd-testit käyttävät korkean tason komentoja, kuten paina nappia nimeltä x, tarkista, että ruudulla näkyy teksti y, jne, joten testien kirjoituksen pitäisi olla nopeaa. Lisäksi Troyd tarjoaa nauhoitus-toiminnon, jolla testiä voidaan kirjoittaa siten, että testiä kirjoittaessa ohjelma etenee aina seuraavaan tilaan testin mukaisesti. Lopuksi testi tallentuu testitapauksiksi. \cite{troyd}
+
+Troyd-testejä kirjoitetaan Rubylla käyttäen Rubyn Test::Unit-työkalua, joka on Rubyn standardi yksikkötestityökalu. \cite{testunit} Troydin komennot sisältävä TroydCommands-moduli sisällytetään testiluokkaan käyttämällä Rubyn mixin-toiminnallisuutta. Testitapauksia voi kirjoittaa kuten tavallisia test::unit-testejä tai sitten voi käyttää rec-skriptin nauhoitusmahdollisuutta.
+
+Troydin heikkouksia on Jeonin ja Fosterin mielestä mahdollisuus testata vain yhtä sovellusta kerrallaan. Esimerkiksi, jos sovellus aukaisee selainikkunan, Troyd menettää sovelluksen kontrollin. Tämä johtuu Androidin testi-instrumentaation rajoituksista. Toinen Troydin heikkous on hidas suoritusnopeus, koska testiskripti odottaa jokaisen komennon jälkeen, että sovellus on oikeassa tilassa ennen testin jatkamista. \cite{troyd}
+
+\subsection{TEMA}
+
+Pleh.
+
+\subsection{Aiempaa tutkimusta}
+
+Jeon \& Foster mainitsevat Robotiumin vahvuudeksi Androidin omaa Instrumentatiota rikkaamman APIn. Esimerkiksi nappien painamiseen voidaan käyttää nappien nimeä, josta Robotium laskee napin sijainnin. He myös vertaavat Robotiumia omaan Troyd-työkaluunsa ja sanovat sen heikkoudeksi, että testit pitää määritellä etukäteen, eikä niitä pysty muokkaamaan ajonaikaisesti. Muulta toiminnallisuudeltaan Troyd ja Robotium ovat suunnilleen samankaltaisia, koska Troyd on tehty Robotiumin päälle. \cite{troyd}
+
+\subsection{Testit}
+
+Testit. t
+
+\subsection{Analyysi}
+
+Se.

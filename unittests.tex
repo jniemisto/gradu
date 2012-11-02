@@ -1,0 +1,27 @@
+\section{Yksikkötestityökaluja}
+
+robolectric vs android test framework k
+
+\subsection{Robolectric}
+
+Robolectric on yksikkötestaustyökalu, jonka tarkoitus on mahdollistaa android-koodin yksikkötestaus suoraan ohjelmointiympäristössä Javan virtuaalikoneessa ilman emulaattoria. Tarkoitus on mahdollistaa nopea TDD-sykli ja helpompi integrointi jatkuvan integroinnin palveluihin. Normaalisti Android-kirjaston luokat palauttavat kutsuttaessa IDE:stä ajoaikaisen poikkeuksen, mutta Robolectric korvaa nämä luokat varjototeutuksilla, jotka palauttavat poikkeuksen sijaan tyhjän oletusvastauksen (kuten null, 0 tai false) tai jos Robolectricissa on kyseistä metodia varten olemassa varjototeutus, se palauttaa toteutuksen määrittelemän oikeamman paluuarvon.
+
+Robolectricin varjoluokkien käytön vaihtoehtona on jonkin mock-kehyksen käyttäminen androidin kirjaston korvaamiseen, mutta tämä on hyvin työläs ja verboosi tapa kirjoittaa testejä. Lisäksi tällöin testejä kirjoittaessa täytyy tuntea testattavan metodin toiminta hyvin tarkasti, jotta mock-toteutukset saadaan kirjoitettua. Robolectricin varjoluokat mahdollistavat enemmän musta laatikko -tyyppisen testauksen. \cite{robolectric}
+
+\subsection{Aiempaa tutkimusta}
+
+Sadeh et al. vertasivat Androidin aktiviteettien yksikkötestausta JUnitilla, AIT:lla (lyhenne/suomennos?) ja Robolectricilla. JUnitilla testattaessa ongelmaksi muodostui se, että ohjelmakoodia jouduttiin melko rajusti refaktoroimaan(suomennos?), jotta luokkien yksikkötestaus onnistui. Tämä tekee ohjelman ylläpidon vaikeaksi. JUnitin hyvä puoli oli erittäin nopea testien ajonopeus. Robolectricillä testien tekeminen taas oli lähes yhtä helppoa kuin AIT:lla. AIT:hen verrattuna Robolectricin vahvuudet oli virhepaikkojen paikantamisen helppous ja nopea ajonopeus. Robolectric-testit ajautuivat viisi kertaa nopeammin kuin AIT:lla ajetut testit, koska AIT ajaa testit emulaattorilla Dalvikilla, Robolectric taas suoraan Javalla. AIT:n suurin vahvuus oli testien kirjoittamisen helppous.\cite{sadehetal11}
+
+Sadeh et al. eivät käyttäneet JUnit-testeissään mitään mock-työkalua, joten testeissä testiluokan riippuvuudet mockattiin tekemällä niistä staattisia sisäluokkia testiluokan sisään. Tämä on erittäin verboosi tapa ja vaikutti osaltaan siihen, miksi puhdas JUnit-testi näytti niin hankalalta. Androidin kirjastoluokat on pakko eristää testattavasta luokasta Javan virtuaalikoneella testattaessa, koska androidin kehitysympäristössä käytettävä paketti ei sisällä varsinaisesti luokkien sisältöä, vaan vain niiden luokkien julkiset rajapinnat, jolloin kehitystyökalut osaavat auttaa niiden käytössä, mutta varsinaista toteutusta ei ole.
+
+Jeon \& Foster mainitsevat Robolectricin vahvuudeksi sen, että se pyörii Javan virtuaalikoneessa ja näin ohittaa hitaan vaihene testeistä, kun sovellus pitää kääntää emulaattorille tai laitteelle tetattavaksi. Robolectric ei heidän mielestään kuitenkaan sovellu kokonaisten sovellusten testaamiseen, koska sen varjoluokat eivät toteuta Androidin komponenteista kuin osan. Ylipäänsä Robolectric vertautuu Jeonin ja Fosterin mielestä paljolti robotiumiin. \cite{troyd}
+
+Allevato \& Edwards käyttivät Robolectriciä opetuskäyttöön tarkoitetun RoboLIFT-työkalun kehitykseen. Robolectric auttoi heitä ohittamaan emulaattorin käytön ja nopeuttamaan opiskelijoiden testisykliä ja automaattista arviointialgoritmia. Tässä käytössä Robolectricin ongelma oli, että se ohittaa käyttöliittymän piirtämisen kokonaan ja muunmuassa näkymien onDraw-metodia ei kutsuta ollenkaan. Tämän seurauksena esimerksi näkymän leveys on aina 0 pikseliä, jolloin sellaiset testit, joilla haluttiin klikata näytöllä johonkin suhteelliseen kohtaan (vaikkapa keskelle) eivät toimineet oikein. \cite{robolift}
+
+\subsection{Testit}
+
+Testit.
+
+\subsection{Analyysi}
+
+Se.

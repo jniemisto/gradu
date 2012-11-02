@@ -1,0 +1,17 @@
+\section{yksityisyys/turvallisuus/tms}
+
+monkey vs ??
+
+\subsection{Androidin tietoturvaratkaisuista}
+
+Android-sovelluksia ajetaan Javan virtuaalikoneessa, joka pyörii väliohjelmistona (middleware) linuxin ytimen päällä. Jokainen Android-sovellus on oma käyttäjänsä Android-järjestelmässä. Sovellusten välinen kommunikointi on rajattu Androidin oman API:n kautta toimivaksi aikeilla, joten sovellukset eivät pääse suoraan käsiksi toistensa koodiin. Tämä tarkoittaa myös sitä, että jos jostain sovelluksesta löytyy haavoittuvuus, sen kautta ei pääse käsiksi muuhun järjestelmään.
+
+Android-sovellukset määrittelevät xml-manifestissaan (suomennos?) permission labels (suomennos?), joiden perusteella sovellustenvälinen kommunikaatio sallitaan tai estetään. Kutsuvasta sovelluksesta pitää löytyä vastaanottavan pään permisison label. (...) Sovelluksen komponentteja voi myös määritellä yksityisiksi (private), jolloin muista sovelluksista ei pääse niihin mitenkään käsiksi. Julkiset komponentit täytyy erikseen määritellä xml-manifestissa (joten vähemmän hyökättävää).
+
+\cite{android_security}
+
+\subsection{Fuzzing}
+
+Sovellusten turvallisuusominaisuuksien testaaminen on vaikeaa, koska testitapa poikkeaa tavanomaisesta. Yleensä testeillä halutaan varmistaa, että sovelluksessa on jokin ominaisuus kun taas turvallisuustestaus on negatiivista testaamista: halutaan varmistaa, että sovelluksessa ei ole turvallisuusaukkoja tai muita ei-haluttuja ominaisuuksia. Tällöin on mahdotonta kirjoittaa testitapauksia, koska ei voida mitenkään testata kaikkia mahdollisia sovelluksen suorituspolkuja.\cite{mahmoodetal12}
+
+Fuzzing 

@@ -28,9 +28,48 @@ Pleh.
 
 Jeon \& Foster mainitsevat Robotiumin vahvuudeksi Androidin omaa Instrumentatiota rikkaamman APIn. Esimerkiksi nappien painamiseen voidaan käyttää nappien nimeä, josta Robotium laskee napin sijainnin. He myös vertaavat Robotiumia omaan Troyd-työkaluunsa ja sanovat sen heikkoudeksi, että testit pitää määritellä etukäteen, eikä niitä pysty muokkaamaan ajonaikaisesti. Muulta toiminnallisuudeltaan Troyd ja Robotium ovat suunnilleen samankaltaisia, koska Troyd on tehty Robotiumin päälle. \cite{troyd}
 
-\subsection{Testit}
+\subsection{Asennus}
 
-Testit. t
+\begin{lstlisting}[float,label=robotium_setup,caption=Robotium testirunko]
+public class RobotiumTest extends ActivityInstrumentationTestCase2<Tomdroid> {
+
+	private Solo solo;
+	
+	public RobotiumTest() {
+		super(Tomdroid.class);
+	}
+	
+	@Override
+	public void setUp() {
+		solo = new Solo(getInstrumentation(), getActivity());
+	}
+	
+	@Override
+	public void tearDown() throws Exception {
+		solo.finishOpenedActivities();
+	}
+}
+\end{lstlisting}
+
+Robotiumin asennus on helppoa, katso listaus \ref{robotium_setup}
+
+\subsection{Robotium-testit}
+
+\begin{lstlisting}[float,label=robotium_createnote,caption=Muistikirjan luontitesti robotiumilla]
+public void testCreateNoteAddsNote() {
+	solo.assertCurrentActivity("Testi alkoi väärästä aktiviteetista", Tomdroid.class);
+	assertFalse(solo.searchText("new note"));
+	solo.clickOnActionBarItem(R.id.menuNew);
+	solo.assertCurrentActivity("Uuden muistikirjan luonti ei avannut uutta muistikirjaa editointinäkymään", EditNote.class);
+	solo.enterText(0, "new note");
+	solo.clickOnActionBarItem(R.id.edit_note_save);
+	solo.clickOnActionBarHomeButton();
+	solo.assertCurrentActivity("Koti-näppäimen painaminen ei vienyt takaisin muistikirjalistaan", Tomdroid.class);
+	assertTrue(solo.searchText("new note"));
+}
+\end{lstlisting}
+
+Robotium-testi, jossa testataan uuden muistikirjan luonti, on esitetty listauksessa \ref{robotium_createnote}. Robotiumilla testiä ohjataan Solo-luokan instanssin kautta, jossa on sovelluksen kanssa kommunikointiin tarkoitettuja metodeja, sovelluksen tilasta kertovia metodeja, sekä assertteja. Testin ensimmäisellä rivillä käytetään assertCurrentActivity()-metodia asserttia varmistamaan, että testi alkaa muistikirjalistasta. Toisella rivillä varmistetaan, että testissä luotavaa muistikirjaa ei vielä löydy listasta. Ilman tätä testissä ei voisi olla varma, että muistikirja on luotu onnistuneesti juuri testin aikana. Seuraavalla rivillä painetaan yläpalkin uuden muistikirjan luovaa nappia clickOnActionBarItem()-metodilla. Se ottaa parametrina komponentin id:n, johon ollaan painamassa. Tämän jälkeen pitäisi avautua uusi muistikirja editointinäkymään, mikä varmistetaan seuraavalla rivillä. Sitten syötetään enterText()-metodilla uuden muistikirjan otsikoksi \"new note\". Ensimmäinen parametri kertoo, monenteenko ruudulla näkyvään tekstinmuokkauskomponenttiin teksti syötetään. Tämän jälkeen klikataan yläpalkin tallennus-nappia ja sitten muistikirjalistaukseen vievää nappia. Lopuksi vielä varmistetaan, että palattiin takaisin muistikirjalistaan ja listasta löytyy nyt juuri luotu aktiviteetti.
 
 \subsection{Analyysi}
 

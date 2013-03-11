@@ -4,9 +4,15 @@
 \usepackage{amsfonts}
 \usepackage{color}
 \usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
 
 \begin{document}
-
+\lstset{language=Java}
 \title{Android-sovellusten testaaminen}
 \author{Juho Niemistö}
 \date{\today}

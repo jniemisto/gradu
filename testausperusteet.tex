@@ -24,7 +24,7 @@ Mockaus (suomennos?) on tekniikka, joka helpottaa yksikkötestien kirjoittamista
 
 Androidille on tehty Androidin mukana tulevien testaustyökalujen lisäksi monia muita testaustyökaluja. Nämä työkalut erottautuvat Androidin työkaluista jollain tavalla.
 
-Testaustyökalujen arviointia käsittelevät muunmuassa \cite{poston92}
+Testaustyökalujen arviointia käsittelevät muunmuassa Poston ja Sexton \cite{poston92}. Hyvän testaustyökalun kriteerit ovat osin kontekstista riippuvia, mutta Poston ja Sexton määrittelevät myös yleisempiä kriteerejä testityökalujen arviointiin. Työkalun toiminnallisten ominaisuuksien arviointi on yleensä kontekstiriippuvaista, mutta usein myös helposti määriteltävissä. Jollain työkalulla pystyy testaamaan asioita, joita toisella ei voi. Ei-toiminnallisia olennaisia ominaisuuksia he luettelevat työkalun tehokkuuden, miten nopeasti sen käytön oppii, miten nopeaa testien tekeminen sillä on ja miten luotettava työkalu on. 
 
 \subsection{Android SDK:n mukana tulevia testityökaluja}
 
@@ -57,6 +57,19 @@ Sisällöntarjoajien testaaminen on erityisen tärkeää, jos sovellus tarjoaa s
 MonkeyRunner tarjoaa rajapinnan, jolla android-sovellusta voi ohjata laitteessa tai emulaattorissa. Se on lähinnä tarkoitettu toiminnallisten testien (functional tests, onko oikea suomennos?) sekä yksikkötestien ajamiseen, mutta soveltuu myös muihin tarkoituksiin. Sen avulla voi esimerkiksi asentaa sovelluksia, ajaa testisarjoja ja sovelluksia ja lähettää niihin syötteitä. Lisäksi monkeyrunnerilla voi ottaa eri kohdista kuvakaappauksia ja verrata niitä referenssikuviin. Tällä tavalla voidaan tehdä esimerkiksi regressiotestausta.
 
 MonkeyRunnerilla voidaan testata yhtä aikaa esimerkiksi monia eri emulaattoreita tai useita laitteita, jolloin voidaan tehdä fragmentaatiotestausta. MonkeyRunner on myös laajennettavissa, jolloin sitä voi käyttää muihinkin tarkoituksiin. MonkeyRunneria ohjataan pythonilla ja se on toteutettu jythonilla, joka on Javan virtuaalikoneessa pyörivä python-toteutus.\cite{android}
+
+\subsection{Uiautomator ja uiautomatorviewer}
+
+Monkeyrunneria paremmat assert-mahdollisuudet ja mahdollisuuden toiminallisten mustalaatikko-testien kirjoittamiseen Javalla tarjoaa uiautomator. Siinä on kaksi komponenttia uiautomatorviewer ja uiautomator. Uiautomatorviewer on graafinen työkalu, jolla voi analysoida ja skannata Android-sovelluksen käyttöliittymää ja uiautomator työkalu, joka tarjoaa rajapinnan ja moottorin toiminnallisten mustalaatikkotestien ajamiseen.
+
+\begin{figure}[htb]
+\includegraphics[width=150mm]{uiautomatorviewer.png}
+\caption{placeholder omalle kuvalle} \label{uiautomatorviewer}
+\end{figure}
+
+Uiautomatorviewer (kuvassa \ref{uiautomatorviewer}) blah
+
+\cite{android}
 
 \subsection{Monkey}
 

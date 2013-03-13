@@ -28,7 +28,7 @@ Pleh.
 
 Jeon \& Foster mainitsevat Robotiumin vahvuudeksi Androidin omaa Instrumentatiota rikkaamman APIn. Esimerkiksi nappien painamiseen voidaan käyttää nappien nimeä, josta Robotium laskee napin sijainnin. He myös vertaavat Robotiumia omaan Troyd-työkaluunsa ja sanovat sen heikkoudeksi, että testit pitää määritellä etukäteen, eikä niitä pysty muokkaamaan ajonaikaisesti. Muulta toiminnallisuudeltaan Troyd ja Robotium ovat suunnilleen samankaltaisia, koska Troyd on tehty Robotiumin päälle. \cite{troyd}
 
-\subsection{Asennus}
+\subsection{Asennukset ja bleh}
 
 \begin{lstlisting}[float,label=robotium_setup,caption=Robotium testirunko]
 public class RobotiumTest extends ActivityInstrumentationTestCase2<Tomdroid> {
@@ -51,7 +51,15 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<Tomdroid> {
 }
 \end{lstlisting}
 
-Robotiumin asennus on helppoa, katso listaus \ref{robotium_setup}
+Robotiumin asennus on yksinkertaista. Projektin build pathiin tarvitsee vain lisätä robotiumin jar-paketti, jossa tulee kaikki tarvittava mukana. Itse robotium-testit perivät Androidin omasta ActivityInstrumentationTestCase2-yliluokasta. Listauksessa \ref{robotium_setup} on esitetty Robotium-testin runko ilman varsinaisia testejä. setUp()-metodissa alustetaan Solo, joka on Robotiumin testit suorittava olio. Se ottaa konstruktoriparametreina ActivityInstrumentationTestCase2:n tarjoaman instrumentaation ja testattavan aktiviteetin. tearDown()-metodissa kutsutaan finishOpenedActivities()-metodia, joka lopettaa kaikki testin aikana aktiivisena olleet aktiviteetit.
+
+\begin{lstlisting}[float,label=delete_notes,caption=Muistikirjojen poisto]
+private void removeAllNotes() {
+	NoteManager.deleteAllNotes(getActivity());
+}
+\end{lstlisting}
+
+Robotium-testeissä on huomattava, että jos sovellus muuttaa muistikortille tai muualle tallennettua tilaansa, on testeissä manuaalisesti pidettävä huolta, että sovellus resetoidaan takaisin alkuperäiseen tilaan, jotta testejä voi toistaa useita kertoja luotettavasti. Tomdroidin tapauksessa tämä tehtäisiin kutsumalla tearDown():ssa apumetodia removeAllNotes(), joka kutsuu Tomdroidin NoteManagerin deleteAllNotes()-metodia, joka poistaa kaikki sovelluksen tallentamat muistikirjat.
 
 \subsection{Robotium-testit}
 

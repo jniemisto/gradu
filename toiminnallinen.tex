@@ -20,6 +20,8 @@ Troyd-testejä kirjoitetaan Rubylla käyttäen Rubyn Test::Unit-työkalua, joka 
 
 Troydin heikkouksia on Jeonin ja Fosterin mielestä mahdollisuus testata vain yhtä sovellusta kerrallaan. Esimerkiksi, jos sovellus aukaisee selainikkunan, Troyd menettää sovelluksen kontrollin. Tämä johtuu Androidin testi-instrumentaation rajoituksista. Toinen Troydin heikkous on hidas suoritusnopeus, koska testiskripti odottaa jokaisen komennon jälkeen, että sovellus on oikeassa tilassa ennen testin jatkamista. \cite{troyd}
 
+Troydin lähdekoodi on avoin ja se löytyy Githubista \cite{troyd_github}.
+
 \subsection{TEMA}
 
 Pleh.
@@ -63,7 +65,7 @@ private void removeAllNotes() {
 
 Robotium-testeissä on huomattava, että jos sovellus muuttaa muistikortille tai muualle tallennettua tilaansa, on testeissä manuaalisesti pidettävä huolta, että sovellus resetoidaan takaisin alkuperäiseen tilaan, jotta testejä voi toistaa useita kertoja luotettavasti. Tomdroidin tapauksessa tämä tehtäisiin kutsumalla tearDown():ssa apumetodia removeAllNotes(), joka kutsuu Tomdroidin NoteManagerin deleteAllNotes()-metodia, joka poistaa kaikki sovelluksen tallentamat muistikirjat.
 
-TROYD vaatii toimiakseen Rubyn version 1.8.3 sekä nokogiri-gemin. Lisäksi se tukee vain androidin versiota 2.3.6, joten yhyy. (RVM + rubyn asentamisen haasteet)
+Troyd vaatii toimiakseen Rubyn version 1.8.7 sekä nokogiri-xml-kirjaston. Lisäksi se tukee vain Androidin versiota 2.3.6, joten uudemman Android-version vaativien sovellusten testaaminen ei ole sillä mahdollista. Troydin asennus kesti huomattavasti Robotiumin asennusta kauemmin, vaikka koneellani oli valmiiksi asennettuna Rubyn versionhallintatyökalu rvm \cite{rvm}, jolla oikean ruby-version asennus onnistuu yhdellä komennolla. Rubyn versio 1.8.7 on myös varsin vanha rubyn versio (julkaistu kesällä 2008 \cite{ruby_187}), joten joissain järjestelmissä näin vanhan version asennus voi olla haasteellista. Asennusten jälkeen Troydin testin kirjoittaminen onnistui kuitenkin nopeasti nauhoitus-skriptin avulla, joka hoiti kaiken muun kuin itse testikoodin kirjoittamisen.
 
 \subsection{Robotium-testit}
 

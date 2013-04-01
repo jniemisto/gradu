@@ -1,30 +1,6 @@
-\section{Android-sovellusten testaamisen perusteet}
+\section{Androidin mukana tulevista työkaluista}
 
 Pitäiskö tässä luvussa olla jotain ylipäänsä testaamisen perusteita, vai riittääkö että johdannossa sivutaan aihetta?
-
-\subsection{Testaamisen peruskäsitteitä}
-
-Testitapaus (test case) on yksittäinen testi, jolle on määritelty syötteet, suoritusehdot ja läpäisykriteerit. Testisarja (test suite) taas on joukko testitapauksia. Testisarja voi myös koostua useasta testisarjasta, jolloin esimerkiksi ohjelman jokaiselle komponentille voi olla oma testisarjansa ja yksi testisarja kattaa sitten kaikki yksittäisten komponenttien testisarjat. \cite[153]{testing}
-
-Yksikkötestauksella (unit testing) tarkoitetaan testejä, joiden kohteena on pienimmät mahdolliset ohjelmakomponentit. Olio-ohjelmoinnissa tämä tarkoittaa useimmiten yksittäistä luokkaa, koska yksittäiset metodit vaikuttavat olion tilaan ja siten metodien toimintaan. \cite[282-286]{testing}. JUnit \cite{junit} on Javan standardi yksikkötestaustyökalu.
-
-Yksikkötestaus on useimmiten valkoinen laatikko -testausta (white box testing / structural testing / glass box testing), jolloin testejä voidaan kirjoittaa ohjelmakoodin perusteella. Testeiltä voidaan vaatia esimerkiksi tiettyä koodikattavuutta, jolloin varmistetaan, että mahdollisimman suuri osa ohjelmakoodista tulee suoritettua testien aikana. \cite[154]{testing}
-
-Toiminnallisessa testauksessa (functional testing) testattavan ohjelman sisäistä rakennetta ei tunneta vaan ollaan kiinnostuttu vain syötteistä ja niitä vastaavista tulosteista. Toiminnallista testausta voidaan kutsua myös musta laatikko -testaukseksi (black box testing) (varmista jostain toisesta lähteestä että nämä ovat oikeasti synonyymi, wikipedian mukaan ei ole vaan functional on black boxin alalaji!) Toiminnallisessa testauksessa ollaan kiinnostuttu ohjelman käyttäjälle näkyvästä toiminnasta ja niitä voidaan tehdä esimerkiksi ohjelman määrittelyn pohjalta. \cite[161-162]{testing}
-
-Mallipohjainen testaus (model based testing) on toiminnallisen testauksen alalaji, jossa testitapaukset luodaan automaattisesti ohjelman spesifikaatiosta tehdystä mallista. Jos ohjelma mallinnetaan formaalilla mallilla, kuten äärellisellä automaatilla tai kieliopilla, voidaan testitapaukset generoida täysin automaattisesti. Semiformaaleilla menetelmillä, kuten luokka- tai oliokaavioilla, mallinnetuista ohjelmista generointi saattaa vaatia manuaalista työtä. \cite[245-250]{testing}
-
-Järjestelmätestauksessa (system testing) testataan koko järjestelmää, se perustuu ohjelman havaittavaan toimintaan ja se on itsenäinen suhteessa ohjelman toteutukseen. Jos ohjelma läpäisee järjestelmätestit, sen voi olettaa olevan vapaa tunnetuista bugeista. \cite[418-421]{testing}
-
-Hyväksyntätestien (acceptance tests) tarkoitus on kertoa, onko ohjelma valmist julkaistavaksi. Hyväksyntätesteissä ei etsitä vikoja ohjelmasta, vaan yritetään varmistaa sen riittävä laatutaso. Hyväksyntätestit ovat usein tilastollisia: niissä mitataan ohjelman luotettavuutta, saavutettavuutta tai häiriötiheyttä. Ongelmana tällaisessa testauksessa on, että vaatii hyvin paljon testiainestoa ennen kuin voidaan olla varmoja ohjelman riittävästä laadusta. Usein hyväksyntätestauksessa käytetään alfa- ja beta-testausta, jolloin ohjelman käyttäjät pääsevät testaamaan ohjelmaa ja raportoimaan sen laadusta. \cite[421-423]{testing}
-
-Mockaus (suomennos?) on tekniikka, joka helpottaa yksikkötestien kirjoittamista. Yksikkötestien ulkoiset riippuvuudet voidaan korvata testeissä kontrolloitavilla mock-olioilla. Tällöin testit ovat vakaampia, koska ulkopuolisten komponenttien muokkaus ei vaikuta testeihin, testin haluttuun lopputulokseen vaikuttava ympäristö on helppo saada haluttuun muotoon. Tällöin testien on helppo testata myös sellaisia olosuhteita, jotka ovat harvinaisia, tai vaikea saada muokattua. Lisäksi mockaamalla voidaan korvata vielä tekemättömät ulkoiset riippuvuudet mock-toteutuksilla. \cite{mocking}
-
-\subsection{Mikä on hyvä testityökalu?}
-
-Androidille on tehty Androidin mukana tulevien testaustyökalujen lisäksi monia muita testaustyökaluja. Nämä työkalut erottautuvat Androidin työkaluista jollain tavalla.
-
-Testaustyökalujen arviointia käsittelevät muunmuassa Poston ja Sexton \cite{poston92}. Hyvän testaustyökalun kriteerit ovat osin kontekstista riippuvia, mutta Poston ja Sexton määrittelevät myös yleisempiä kriteerejä testityökalujen arviointiin. Työkalun toiminnallisten ominaisuuksien arviointi on yleensä kontekstiriippuvaista, mutta usein myös helposti määriteltävissä. Jollain työkalulla pystyy testaamaan asioita, joita toisella ei voi. Ei-toiminnallisia olennaisia ominaisuuksia he luettelevat työkalun tehokkuuden, miten nopeasti sen käytön oppii, miten nopeaa testien tekeminen sillä on ja miten luotettava työkalu on. 
 
 \subsection{Android SDK:n mukana tulevia testityökaluja}
 
@@ -79,6 +55,65 @@ Monkeylle voi antaa jonkin verran sen toimintaa ohjaavia parametreja. Ensinnäki
 
 Monkey pystäyttää testin, jos ohjelmasta lentää käsittelemätön poikkeus tai jos järjestelmä lähettää sovellus ei vastaa -virheviestin. Näissä tapauksissa Monkey antaa raportin virheestä ja miten se syntyi. Monkey voi myös haluttaessa tehdä profilointiraportin testistä.\cite{android}
 
-\subsection{Androidin testaustyökalujen arviointia}
+\subsection{Androidin fragmentaatio}
 
-Mikä on hyvällä mallilla, mihin tarvitaan lisätyökaluja
+Google tarjoaa android-laitteiden fragmentaation seurantaan palvelua, jossa kerrotaan kahden viikon jaksolla Androidin sovelluskaupassa käyneiden laitteiden jakauma androidin version, näytön koon ja resoluution sekä OpenGL:n version mukaan.\cite{android_versions} Jakauma ei välttämättä vastaa käytössä olevien Android-laitteiden jakaumaa, mutta toisaalta sovelluskehittäjän kannalta ne käyttäjät, jotka käyttävät sovelluskauppaa, lienevät olennaisimpia.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ l l l l }
+  Versio & Koodinimi & API & Osuus \\
+  1.5 & Cupcake & 3 & 0.1\% \\
+  1.6 & Donut & 4 & 0.4\% \\
+  2.1 & Eclair & 7 & 3.4\% \\
+  2.2 & Froyo & 8 & 12.9\% \\
+  2.3 - 2.3.2 & Gingerbread & 9 & 0.3\% \\
+  2.3.3 - 2.3.7 & Gingerbread & 10 & 55.5\% \\
+  3.1 & Honeycomb & 12 & 0.4\% \\
+  3.2 & Honeycomb & 13 & 1.5\% \\
+  4.0.3 - 4.0.4 & Ice Cream Sandwich & 15 & 23.7\% \\
+  4.1 & Jelly Bean & 16 & 1.8\% \\
+\end{tabular}
+\caption{Androidin versioiden osuus 1.10.2012 päättyneellä 2-viikkoisjaksolla}
+\label{tab:android_versions}
+\end{table}
+
+Taulukko \ref{tab:android_versions} kuvaa androidin käyttöjärjestelmäversioiden jakaumaa. Miksi olennainen? Androidin 4-versio julkaistiin lokakuussa 2011, mutta vuotta myöhemmin vain noin neljäsosa laitteista käyttää 4. versiota. Jos sovelluskehittäjä haluaa tukea esimerkiksi 90\% markkinoilla olevista laitteista, on tuki ulotettava 2.2-versioon, joka julkaistiin toukokuussa 2010. \cite{android_version_history}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ l l l l l }
+   & ldpi (~120dpi) & mdpi (~160dpi) & hdpi (~240dpi) & xhdpi (~320dpi) \\
+  small & 1.7\% &  & 1.0\% &  \\
+  normal & 0.4\% & 11\% & 50.1\% & 25.1\% \\
+  large & 0.1\% & 2.4\% &  & 3.6\% \\
+  xlarge &  & 4.6\% &  &  \\
+\end{tabular}
+\caption{Android-laitteiden näyttökokojen ja pikselitiheyden osuudet 1.10.2012 päättyneellä 7 päivän jaksolla.}
+\label{tab:screen_sizes}
+\end{table}
+
+Android-laitteet poikkeavat toisistaan sekä näytön fyysisen koon, että pikselitiheyden puolesta. Taulukossa \ref{tab:screen_sizes} on kuvattuna erilaisten näyttötyyppien jakaumaa. Näytön koon arvioinnissa android käyttää tiheysnormalisoituja pikseleitä (Density-independent pixel, dp), jotka lasketaan kaavalla px = dp * (dpi / 160), missä px on pikseli ja dpi on pikseleiden määrä tuumalla. Siten esimerkiksi 240 dpi:n näytöllä, yksi dp vastaa puoltatoista fyysistä pikseliä. Sovellusten ulkoasu tulisi aina suunnitella käyttäen dp:tä yksikkönä, jolloin skaalaus eri kokoisille ja pikselitiheyksisille näytöille onnistuu parhaiten. Taulukossa \ref{tab:screen_sizes} näyttökoot on lajiteltu niin, että xlarge näyttöjen resoluutio on vähintään 960dp x 720dp, large: 640dp x 480dp, normal: 470dp x 320dp ja small vähintään 426dp x 320dp.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ l l }
+  OpenGL ES versio & jakauma \\
+  1.1 & 9.2\% \\
+  2.0 \& 1.1 & 90.8\% \\
+\end{tabular}
+\caption{OpenGL versiot}
+\label{tab:opengl_versions}
+\end{table}
+
+Taulukossa \ref{tab:opengl_versions} on kuvattu OpenGL ES -versioiden jakauma Android-laitteissa.\cite{android_versions}
+
+Oheisten muuttujien lisäksi Android-laitteet poikkeavat toisistaan myös monilla muilla tavoin. Suoritintehoa laitteissa on hyvin eri määrissä käytössä ja näytönohjainten tehotkin vaihtelevat. Lisäksi erilaisia lisälaitteita, kuten gps, kiihtyvyysantureita, kompasseja yms. saattaa olla laitteissa, tai olla olematta.
+
+\subsection{Mitä keinoja android sdk tarjoaa fragmentaation hallintaan}
+
+Jos sovellus tarvitsee välttämättä laitteelta tiettyjä ominaisuuksia, on mahdollista suodattaa sovellus pois Androidin sovelluskaupan hauista, jos sitä haetaan laitteella, joka ei tue sovelluksen vaatimia ominaisuuksia. Tärkeimmät suotimet ovat androidin API:n minimiversio, tiettyjen lisälaitteiden olemassaolo ja näytön koko.
+
+<uses-sdk>-direktiivillä (directive suomennos?) määritellään Androidin APIn minimiversio. Jos laitteessa on käytössä pienempi API-versio kuin direktiivillä annettu, sovellusta ei näytetä hakutuloksissa. <support screens>-direktiivi määrittelee, millä näytön koolla sovellus toimii. Tavallisesti määrittelemällä jokin tuettu koko, sovelluskauppa olettaa, että laite tukee sen lisäksi myös isompia näyttökokoja, muttei pienempiä. On myös mahdollista määritellä erikseen kaikki tuetut näyttökoot.
+
+<uses-feature>-direktiivillä voidaan määritellä mitä ominaisuuksia sovellus vaatii. Näitä on sekä laitteistotasolla, kuten kamera, kiihtyvyysanturi tai kompassi, että ohjelmistotasolla, kuten vaikka liikkuvat taustakuvat, joiden pyörittämiseen kaikissa Android-laitteissa ei riitä resursseja. <uses-feature>-direktiiviä käytetään, kun sovellus ei lainkaan toimi ilman kyseistä ominaisuutta. Jos sovellus on käyttökelpoinen myös ilman ominaisuutta, voi tämän hallintaan käyttää muita keinoja (ja ne oli..?)  \cite{android_compatibility}

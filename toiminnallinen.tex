@@ -22,17 +22,42 @@ Troydin heikkouksia on Jeonin ja Fosterin mielestä mahdollisuus testata vain yh
 
 Troydin lähdekoodi on avoin ja se löytyy Githubista \cite{troyd_github}.
 
-\subsection{TEMA}
-
-Pleh.
-
 \subsection{Aiempaa tutkimusta}
 
 Jeon \& Foster mainitsevat Robotiumin vahvuudeksi Androidin omaa Instrumentatiota rikkaamman APIn. Esimerkiksi nappien painamiseen voidaan käyttää nappien nimeä, josta Robotium laskee napin sijainnin. He myös vertaavat Robotiumia omaan Troyd-työkaluunsa ja sanovat sen heikkoudeksi, että testit pitää määritellä etukäteen, eikä niitä pysty muokkaamaan ajonaikaisesti. Muulta toiminnallisuudeltaan Troyd ja Robotium ovat suunnilleen samankaltaisia, koska Troyd on tehty Robotiumin päälle \cite{troyd}.
 
 Benli et al. tutkivat valkoinen laatikko ja musta laatikko -testaustapojen suhteellista tehokkuutta Android-alustalla. Musta laatikko -testeissä tutkimuksessa käytettiin Robotiumia, koska Androidin mukana tulevat testaustyökalut eivät mahdollistaneet järkevää JUnit-pohjaista musta laatikko -testausta. Valkoinen laatikko -testit tehtiin Androidin yksikkötestityökaluilla. Tuloksena oli, että valkoinen laatikko -testien kirjoittaminen kesti 89\% kauemmin, mutta testien ajaminen oli 43\% nopeampaa kuin musta laatikko -testien. Testiohjelmaan istutetut bugit löytyivät valkoinen laatikko -testeillä, mutta ei Robotium-testeillä. Testiajojen nopeuteen liittyen on huomattava, että robotium-testit ajettiin visuaalisessa moodissa niin, että jokaisen komennon välissä oli yksi sekunti, jotta käyttöliittymän tila ehdittiin havaita manuaalisesti \cite{benli12}.
 
-\subsection{Asennukset ja bleh}
+\subsection{Testiprojektista}
+
+\begin{figure}[htb]
+\includegraphics[width=60mm]{tomdroid_notelist.png}
+\caption{Muistikirjalista Tomdroidissa} \label{tomdroid_notelist}
+\end{figure}
+
+Testityökalujen vertailussa käytän testattavana ohjelmana Tomdroidia. Tomdroid on GPL-lisenssillä julkaistu avoimen lähdekoodin sovellus, joka toimii muistikirjasovelluksena, joka synkronisoi sisältönsä automaattisesti. \cite{tomdroid} Tomdroid on valittu testattavaksi sovellukseksi, koska sen lähdekoodi on saatavilla, se on riittävän monimutkainen, jotta sille tehdyt testit kuvaisivat oikeassa android-kehityksessä kohdattavia testaushaasteita, se on vasta beta-vaiheessa, joten sovelluksesta pitäisi löytyä myös bugeja ja lisäksi sovelluksen oma testaus on lähes olematonta.
+
+Tätä tutkimusta varten tein kopion tomdroidin lähdekoodista versiosta 0.7.2 ja kopioin sen githubiin. Sieltä löytyy myös kaikki tässä tutkimuksessa sovellukselle tehdyt testit. \cite{tomdroid_github}
+
+Tomdroidissa olennaisimmat näkymät ovat muistikirjalista, josta on ruutukaappaus kuvassa \ref{tomdroid_notelist}, yksittäisen muistikirjan selaaminen (kuvassa \ref{tomdroid_noteview}) ja sen editointi (kuvassa \ref{tomdroid_editview}). 
+
+Listanäkymässä näkyvät kaikki käyttäjän muistikirjat päivitysajan mukaan järjestettynä. Muistikirjan koskeminen avaa kyseisen muistikirjan selausnäkymän. Yläpalkin +-symboli luo uuden muistikirjan ja avaa sen editointinäkymään. Yläpalkin oikeassa reunassa on synkronointi-symboli, josta muistikirjojen tila päivitetään palvelimen kanssa.
+
+Selausnäkymässä voi lukea yksittäistä muistikirjaa. Jos tekstiä on enemmän kuin ruudulle mahtuu kerrallaan, sitä voi selata raahaamalla. Kynä-ikoni yläpalkissa avaa muistikirjan editointinäkymään. Yläpalkin oikean reunan ikonista voi jakaa muistikirjan toisiin sovelluksiin. Lisäksi vasemman yläreunan ikonista pääsee takaisin listaan.
+
+Editointinäkymässä yläpalkissa on kuvakkeet muutosten tallentamista ja perumista varten. Tallennettaessa ruudulla näkyy hetken aikaa leijuke, jossa kerrotaan muutosten tallennuksesta. Painettaessa peru-nappia ruudulle tulee dialogi, jossa pitää vahvistaa peruminen edelliseen tallennettuun versioon. Lisäksi vasemman yläreunan ikonista pääsee takaisin listaan.
+
+\begin{figure}[htb]
+\includegraphics[width=60mm]{tomdroid_noteview.png}
+\caption{Muistikirjan luku Tomdroidissa} \label{tomdroid_noteview}
+\end{figure}
+
+\begin{figure}[htb]
+\includegraphics[width=60mm]{tomdroid_editview.png}
+\caption{Muistikirjan editointi Tomdroidissa} \label{tomdroid_editview}
+\end{figure}
+
+\subsection{Asennukset}
 
 \begin{lstlisting}[float,label=robotium_setup,caption=Robotium testirunko]
 public class RobotiumTest 

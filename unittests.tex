@@ -22,6 +22,28 @@ Jeon \& Foster mainitsevat Robolectricin vahvuudeksi sen, että se pyörii Javan
 
 Allevato \& Edwards käyttivät Robolectriciä opetuskäyttöön tarkoitetun RoboLIFT-työkalun kehitykseen. Robolectric auttoi heitä ohittamaan emulaattorin käytön ja nopeuttamaan opiskelijoiden testisykliä ja automaattista arviointialgoritmia. Tässä käytössä Robolectricin ongelma oli, että se ohittaa käyttöliittymän piirtämisen kokonaan ja muunmuassa näkymien onDraw-metodia ei kutsuta ollenkaan. Tämän seurauksena esimerksi näkymän leveys on aina 0 pikseliä, jolloin sellaiset testit, joilla haluttiin klikata näytöllä johonkin suhteelliseen kohtaan (vaikkapa keskelle) eivät toimineet oikein. \cite{robolift}
 
+\subsection{Testiprojekti}
+
+\begin{figure}[htb]
+\includegraphics[width=60mm]{peli_screenshot.png}
+\caption{Ruutukaappaus pelist} \label{peli_screenshot}
+\end{figure}
+
+Yksikkötestaustyökaluja testasin itse tehdyllä demoprojektilla. Kyseessä on yksinkertainen peli, jonka pelinäkymästä on ruutukaappaus kuvassa \ref{peli_screenshot}. Pelissä ohjataan kosketusnäytöllä painamalla punaista palloa ja pyritään väistämään ympäriinsä pomppivia sinisiä palloja. Kun peli päättyy, palataan takaisin päänäkymään, josta on ruutukaappaus kuvassa \ref{mainactivity}. Tästä näkymästä voi aloittaa uuden pelin ja lisäksi näkee, montako sekuntia edellinen peli kesti.
+
+\begin{figure}[htb]
+\includegraphics[width=60mm]{peli_mainactivity.png}
+\caption{Ruutukaappaus pelist} \label{mainactivity}
+\end{figure}
+
+Peli koostuu kahdesta aktiviteetista, yksinkertaisemmasta MainActivity:sta sekä hieman monimutkaisemmasta GameActivity:sta, jonka yksikkötestaukseen keskityn. Itse peliä ohjaa GameView-luokka, joka on yhtä aikaa näkymä ja kontrolleri MVC-suunnittelumallin mukaisesti. Malleja ovat GameClock, joka kuvaa pelikelloa, sekä Circle, joka kuvaa yhtä ruudulla näkyvää ympyrää. GameActivity toteuttaa lisäksi OnGameEndListener-rajapinnan, jonka avulla GameView ilmoittaa pelin päättymisestä ja pistemäärästä. Pelin luokkakaavio on esitetty kuvassa \ref{game_classdiagram}.
+
+\begin{figure}[htb]
+\includegraphics[width=110mm]{peli_luokkakaavio.png}
+\caption{Pelin luokkakaavio} \label{game_classdiagram}
+\end{figure}
+
+
 \subsection{Robolectricin asentaminen}
 \label{robolectric_install}
 

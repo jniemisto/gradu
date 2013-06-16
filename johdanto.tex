@@ -1,10 +1,10 @@
 \section{Johdanto}
 
-Tällä hetkellä copypaste suoraan aihe-esittelystä.. Refaktoroin sitten kun muu sisältö alkaa olla paremmin hahmotettuna
-
 Googlen kehittämä Android on noussut viime vuosina markkinaosuudeltaan suurimmaksi mobiililaitteiden käyttöjärjestelmäksi. Kuka tahansa voi kehittää Androidille sovelluksia, joiden kehittämiseen tarvittavat välineet ovat ilmaiseksi saatavilla. Erilaisia sovelluksia onkin kehitetty jo noin 500 000.
 
 Mobiilisovellusten kehittämiseen liittyy monia haasteita. Niitä ovat muunmuassa rajalliset laitteistoresurssit, käytettävyys pienellä näytöllä sekä yksityisyyteen ja tietoturvaan liittyvät kysymykset. Androidilla on lisäksi esimerkiksi Applen iOS-alustaan verrattuna omana haasteenaan Android-laitteiden valtava kirjo. Android-laitteita valmistavat kymmenet eri valmistajat ja ne vaihtelevat kameroista tablettien kautta digibokseihin. Laitteissa on hyvin eritehoisia prosessoreita ja lisälaitteita, kuten gps- tai kiihtyvyysantureita, on vaihtelevasti.
+
+Testaamisen tavoitteet (miksi testataan, erit. mobiili)
 
 Sovellusten laatu on erityisen tärkeää Android-alustalla, jossa kilpailua on runsaasti ja sovellusten hinta niin alhainen, ettei se muodosta estettä sovelluksen vaihtamista toiseen. Sovelluskauppa on myös aina saatavilla suoraan laitteesta.
 
@@ -14,7 +14,16 @@ Käsittelyssä nimenomaan automaattisen testauksen työkalut.
 
 Käsittelen gradussa vain Androidille javalla kehitettyjä natiivi-sovelluksia. Androidille voi kehittää sovelluksia myös muunmuassa html5:llä ja erilaisilla työkaluilla, jotka generoivat automaattisesti natiivikoodia useille mobiilialustoille. Osa testaustyökaluista mahdollistaa toki myös tällaisten sovellusten testaamisen. Keskityn vain automaattisiin testaustyökaluihin, joten esimerkiksi manuaaliseen käytettävyystestaukseen liittyvät prosessit ja työkalut on rajattu tämän työn ulkopuolelle.
 
-Ensimämisessä luvussa esittelen Androidin komponentit.
+Toisessa luvussa esittelen Androidin kehitystyökaluja sekä arkkitehtuuria sovellusten kehittäjän näkökulmasta. Luvussa tutustutaan Androidin tärkeimpiin komponentteihin: aktiviteetteihin, palveluihin ja sisällöntarjoajiin sekä komponenttien väliseen kommunikointiin aikeiden avulla. Lisäksi esittelen Android manifestin sekä Androidin matalan tason tietoturvaratkaisuja.
+
+Kolmannessa luvussa käsitellään ohjelmistojen testaamisen perusasioita, testausta osana ohjelmistotuotantoprosessia sekä mobiilisovellusten testaamisen erityispiirteitä. Lisäksi pohditaan testaustyökalujen arviointia ja laatukriteerejä. Androidin kehitystyökalupakettin mukana tulee runsaasti testaustyökaluja. Esittelen niitä luvussa neljä. Lisäksi käsittelen Android-laitteiden fragmentaatiota.
+
+Viidennessä luvussa syvennytään yksikkötestityökaluihin. Vertailen Androidin yksikkötestikehystä avoimen lähdekoodin Robolectriciin, joka pyrkii tarjoamaan Androidin oman yksikkötestikehyksen ominaisuudet tavanomaisessa Java-ympäristössä, jotta testien ajaminen olisi nopeampaa. Selvitän luvussa myös yksikkötestikehysten yhteensopivuutta mock-kehysten kanssa.
+
+Kuudennessa luvussa käsitellään toiminnallisen testauksen työkaluja. Vertailen Androidin UIAutomator-työkalun lisäksi Robotium ja Troyd -testityökaluja.
+
+Seitsemännessä luvussa esitellään vielä lyhyesti muita kolmansien osapuolien testityökaluja, joita ei ole aiemmissa luvuissa käsitelty kokonaiskuvan saamiseksi Androidin testityökaluista.
+
 
 Aihe-esittelyssä listatut alustavat lähteet: 
 \cite{hyungkeunetal11}

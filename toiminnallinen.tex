@@ -1,56 +1,57 @@
-\section{Toiminnallinen testaus}
+\section{Toiminnallisen testauksen työkalujen vertailua}
 
-Robotium, Troyd, Uiautomator ja ehkä myös monkeyrunner?
+Toiminnallisia testejä voi Androidilla tehdä monella eri työkalulla ja eri abstraktion tasolla. Androidin omista työkaluista toiminnallisten testien kirjoittamiseen soveltuvat AndroidInstrumentationTestCase-yliluokan avulla tehdyt JUnit-testit, Monkeyrunnerilla kirjoitetut testit sekä Uiautomator-testit. Näistä AndroidInstrumentationTestCase-luokkaa käyttävät testit ovat matalimmalla tasolla ja niiden kirjoittaminen vaatii tietoa ohjelmakoodin toiminnasta. Monkeyrunner-testit kirjoitetaan Pythonilla, eivät vaadi tietoa ohjelman sisäisestä rakenteesta, mutta koska Monkeyrunnerista puuttuvat kunnon assertointimahdollisuudet, en käsittele sitä tässä. Käsittelen sen sijaan Uiautomatorilla kirjoitettuja toiminnallisia testejä. Tämän lisäksi käsittelen Robotiumia, joka on Javalla käytettävä testityökalu sekä Troydia, joka käyttää Rubya testien tuottamiseen.
 
 \subsection{Robotium}
 
-Robotium ei tule Androidin sdk:n mukana, mutta se on paljon käytetty testityökalu Android-sovellusten testauksessa. Robotiumin slogan on, että se on kuin Selenium, mutta Androidille. Selenium taas on laajasti integraatio- ja funktionaalisessa testauksessa käytetty työkalu, joka mahdollistaa selaimen toimintojen automatisoimisen, kuten linkkien klikkauksen, lomakekenttien täyttämisen jne. \cite{selenium}
+Robotium on suosittu testityökalu Android-sovellusten testauksessa. Robotium pyrkii tarjoamaan Android-sovelluksille vastaavan toiminnallisuuden kuin suosittu Selenium-testikehys selaintestaukseen. Selenium on toiminnallisessa ja integraatiotestauksessa käytetty työkalu, joka mahdollistaa selaimen toimintojen automatisoimisen, kuten linkkien klikkauksen ja lomakekenttien täyttämisen koneellisesti \cite{selenium}.
 
-Robotium on tarkoitettu Android-sovellusten funktionaaliseen-, systeemi- ja hyväksyntätestaukseen. Se on black box -työkalu, eli testin kirjoittajan ei tarvitse päästä käsiksi tai tuntea testattavan sovelluksen koodia. Robotium-testit voivat testata samassa testitapauksessa useita aktiviteetteja. Robotium-testeissä annetaan ohjeita, missä järjestyksessä käyttöliittymäelementtejä klikataan tai syötetään tekstiä.
+Robotium on tarkoitettu Android-sovellusten toiminnalliseen, järjestelmä- ja hyväksyntätestaukseen. Se on musta laatikko -työkalu, eli testin kirjoittajan ei tarvitse päästä käsiksi tai tuntea testattavan sovelluksen koodia. Robotium-testit voivat testata samassa testitapauksessa useita aktiviteetteja. Robotium-testeissä annetaan ohjeita, missä järjestyksessä käyttöliittymäelementtejä klikataan tai syötetään tekstiä.
 
-Robotiumtestejä voi ajaa niin emulaattorissa kuin puhelimessakin. Testit eivät kuitenkaan voi käsitellä kahta eri sovellusta, eli yksi testitapaus voi käsitellä vain yhtä sovellusta. Tällöin sovellustenvälinen integraatiotestaus ei ole mahdollista.
+Robotiumtestejä voi ajaa niin emulaattorissa kuin puhelimessakin. Testit eivät kuitenkaan voi käsitellä kahta eri sovellusta, eli yksi testitapaus voi käsitellä vain yhtä sovellusta. Sovellustenvälinen integraatiotestaus ei ole mahdollista.
 
-Robotiumin sivuilla sille esitellään useita vahvuuksia Android SDK:n mukana tuleviin työkaluihin verrattuna. Testit vaativat vain vähäistä tuntemusta testattavasta sovelluksesta, Robotium tukee usean aktiviteetin testaamiseta samassa testissä, testien kirjoittamisen nopeus, testikoodin selkeys ja sitkeys, joka johtuu ajoaikaisesta sidonnasta käyttöliittymäkomponentteihin, nopea suoritusnopeus ja helppo integrointi jatkuvan integroinnin työkaluihin Antin tai Mavenin avulla. (pitäisikö ant/maven esitellä jossain?) \cite{robotium}
+Robotiumin kotisivuilla sille esitellään useita vahvuuksia Android SDK:n mukana tuleviin työkaluihin verrattuna. Testit vaativat vain vähäistä tuntemusta testattavasta sovelluksesta, Robotium tukee usean aktiviteetin testaamiseta samassa testissä, testien kirjoittamisen nopeus, testikoodin selkeys ja sitkeys, joka johtuu ajoaikaisesta sidonnasta käyttöliittymäkomponentteihin, nopea suoritusnopeus ja helppo integrointi jatkuvan integroinnin työkaluihin Antin tai Mavenin avulla \cite{robotium}.
 
 \subsection{Troyd}
 
-Troyd on Robotiumia käyttäen tehty integraatiotestaustyökalu, jonka tavoite on yhdistää Monkeyn skriptausominaisuudet ja Robotiumin tarjoama korkean tason API. Troyd-testit käyttävät korkean tason komentoja, kuten paina nappia nimeltä x, tarkista, että ruudulla näkyy teksti y, jne, joten testien kirjoituksen pitäisi olla nopeaa. Lisäksi Troyd tarjoaa nauhoitus-toiminnon, jolla testiä voidaan kirjoittaa siten, että testiä kirjoittaessa ohjelma etenee aina seuraavaan tilaan testin mukaisesti. Lopuksi testi tallentuu testitapauksiksi. \cite{troyd}
+Troyd on Robotiumia käyttäen tehty integraatiotestaustyökalu, jonka tavoite on yhdistää Monkeyrunnerin skriptausominaisuudet ja Robotiumin tarjoama korkean tason API. Troyd-testit käyttävät korkean tason komentoja, kuten \"paina nappia nimeltä x\" tai \"tarkista, että ruudulla näkyy teksti y\", joten testien kirjoituksen pitäisi olla nopeaa. Lisäksi Troyd tarjoaa nauhoitus-toiminnon, jolla testiä voidaan kirjoittaa siten, että testiä kirjoittaessa ohjelma etenee aina seuraavaan tilaan testin mukaisesti. Lopuksi testi tallentuu testitapauksiksi \cite{troyd}.
 
-Troyd-testejä kirjoitetaan Rubylla käyttäen Rubyn Test::Unit-työkalua, joka on Rubyn standardi yksikkötestityökalu. \cite{testunit} Troydin komennot sisältävä TroydCommands-moduli sisällytetään testiluokkaan käyttämällä Rubyn mixin-toiminnallisuutta. Testitapauksia voi kirjoittaa kuten tavallisia test::unit-testejä tai sitten voi käyttää rec-skriptin nauhoitusmahdollisuutta.
+Troyd-testejä kirjoitetaan Rubylla käyttäen Rubyn Test::Unit-työkalua, joka on Rubyn vakiokirjaston mukana tuleva yksikkötestityökalu. \cite{testunit} Troydin komennot sisältävä TroydCommands-moduli sisällytetään testiluokkaan käyttämällä Rubyn mixin-toiminnallisuutta. Testitapauksia voi kirjoittaa kuten tavallisia Test::Unit-testejä tai sitten voi käyttää nauhoitusmahdollisuutta.
 
-Troydin heikkouksia on Jeonin ja Fosterin mielestä mahdollisuus testata vain yhtä sovellusta kerrallaan. Esimerkiksi, jos sovellus aukaisee selainikkunan, Troyd menettää sovelluksen kontrollin. Tämä johtuu Androidin testi-instrumentaation rajoituksista. Toinen Troydin heikkous on hidas suoritusnopeus, koska testiskripti odottaa jokaisen komennon jälkeen, että sovellus on oikeassa tilassa ennen testin jatkamista. \cite{troyd}
+Troydin heikkouksia on sen tekijöiden mielestä mahdollisuus testata vain yhtä sovellusta kerrallaan. Esimerkiksi, jos sovellus aukaisee selainikkunan, Troyd menettää sovelluksen kontrollin. Tämä johtuu Androidin testi-instrumentaation rajoituksista. Toinen Troydin heikkous on hidas suoritusnopeus, koska testiskripti odottaa jokaisen komennon jälkeen, että sovellus on varmasti oikeassa tilassa ennen testin jatkamista. \cite{troyd}
 
-Troydin lähdekoodi on avoin ja se löytyy Githubista \cite{troyd_github}.
+Troydin lähdekoodi on avoin ja se löytyy GitHubista \cite{troyd_github}.
 
 \subsection{Aiempaa tutkimusta}
 
 Jeon \& Foster mainitsevat Robotiumin vahvuudeksi Androidin omaa Instrumentatiota rikkaamman APIn. Esimerkiksi nappien painamiseen voidaan käyttää nappien nimeä, josta Robotium laskee napin sijainnin. He myös vertaavat Robotiumia omaan Troyd-työkaluunsa ja sanovat sen heikkoudeksi, että testit pitää määritellä etukäteen, eikä niitä pysty muokkaamaan ajonaikaisesti. Muulta toiminnallisuudeltaan Troyd ja Robotium ovat suunnilleen samankaltaisia, koska Troyd on tehty Robotiumin päälle \cite{troyd}.
 
-Benli et al. tutkivat valkoinen laatikko ja musta laatikko -testaustapojen suhteellista tehokkuutta Android-alustalla. Musta laatikko -testeissä tutkimuksessa käytettiin Robotiumia, koska Androidin mukana tulevat testaustyökalut eivät mahdollistaneet järkevää JUnit-pohjaista musta laatikko -testausta. Valkoinen laatikko -testit tehtiin Androidin yksikkötestityökaluilla. Tuloksena oli, että valkoinen laatikko -testien kirjoittaminen kesti 89\% kauemmin, mutta testien ajaminen oli 43\% nopeampaa kuin musta laatikko -testien. Testiohjelmaan istutetut bugit löytyivät valkoinen laatikko -testeillä, mutta ei Robotium-testeillä. Testiajojen nopeuteen liittyen on huomattava, että robotium-testit ajettiin visuaalisessa moodissa niin, että jokaisen komennon välissä oli yksi sekunti, jotta käyttöliittymän tila ehdittiin havaita manuaalisesti \cite{benli12}.
+Benli et al. tutkivat valkoinen laatikko ja musta laatikko -testaustapojen suhteellista tehokkuutta Android-alustalla. Musta laatikko -testeissä tutkimuksessa käytettiin Robotiumia, koska Androidin mukana tulevat testaustyökalut eivät mahdollistaneet järkevää JUnit-pohjaista musta laatikko -testausta. Valkoinen laatikko -testit tehtiin Androidin yksikkötestityökaluilla. Tuloksena oli, että valkoinen laatikko -testien kirjoittaminen kesti 89\% kauemmin, mutta testien ajaminen oli 43\% nopeampaa kuin musta laatikko -testien. Testiohjelmaan istutetut bugit löytyivät valkoinen laatikko -testeillä, mutta ei Robotium-testeillä. Testiajojen nopeuteen liittyen on huomattava, että Robotium-testit ajettiin visuaalisessa moodissa niin, että jokaisen komennon välissä oli yksi sekunti, jotta käyttöliittymän tila ehdittiin havaita manuaalisesti \cite{benli12}.
 
 \subsection{Testiprojektista}
+\label{tomdroid}
 
 \begin{figure}[htb]
 \includegraphics[width=60mm]{tomdroid_notelist.png}
 \caption{Muistikirjalista Tomdroidissa} \label{tomdroid_notelist}
 \end{figure}
 
-Testityökalujen vertailussa käytän testattavana ohjelmana Tomdroidia. Tomdroid on GPL-lisenssillä julkaistu avoimen lähdekoodin sovellus, joka toimii muistikirjasovelluksena, joka synkronisoi sisältönsä automaattisesti. \cite{tomdroid} Tomdroid on valittu testattavaksi sovellukseksi, koska sen lähdekoodi on saatavilla, se on riittävän monimutkainen, jotta sille tehdyt testit kuvaisivat oikeassa android-kehityksessä kohdattavia testaushaasteita, se on vasta beta-vaiheessa, joten sovelluksesta pitäisi löytyä myös bugeja ja lisäksi sovelluksen oma testaus on lähes olematonta.
+Toiminnallisten testityökalujen vertailussa käytän testattavana ohjelmana Tomdroidia. Tomdroid on GPL-lisenssillä julkaistu avoimen lähdekoodin muistikirjasovellus \cite{tomdroid}. Tomdroid on valittu testattavaksi sovellukseksi, koska sen lähdekoodi on saatavilla, se on riittävän monimutkainen, jotta sille tehdyt testit kuvaisivat oikeassa Android-kehityksessä kohdattavia testaushaasteita, se on vasta beta-vaiheessa, joten sovelluksesta pitäisi löytyä myös bugeja ja lisäksi sovelluksen oma testaus on lähes olematonta.
 
-Tätä tutkimusta varten tein kopion tomdroidin lähdekoodista versiosta 0.7.2 ja kopioin sen githubiin. Sieltä löytyy myös kaikki tässä tutkimuksessa sovellukselle tehdyt testit. \cite{tomdroid_github}
-
-Tomdroidissa olennaisimmat näkymät ovat muistikirjalista, josta on ruutukaappaus kuvassa \ref{tomdroid_notelist}, yksittäisen muistikirjan selaaminen (kuvassa \ref{tomdroid_noteview}) ja sen editointi (kuvassa \ref{tomdroid_editview}). 
-
-Listanäkymässä näkyvät kaikki käyttäjän muistikirjat päivitysajan mukaan järjestettynä. Muistikirjan koskeminen avaa kyseisen muistikirjan selausnäkymän. Yläpalkin +-symboli luo uuden muistikirjan ja avaa sen editointinäkymään. Yläpalkin oikeassa reunassa on synkronointi-symboli, josta muistikirjojen tila päivitetään palvelimen kanssa.
-
-Selausnäkymässä voi lukea yksittäistä muistikirjaa. Jos tekstiä on enemmän kuin ruudulle mahtuu kerrallaan, sitä voi selata raahaamalla. Kynä-ikoni yläpalkissa avaa muistikirjan editointinäkymään. Yläpalkin oikean reunan ikonista voi jakaa muistikirjan toisiin sovelluksiin. Lisäksi vasemman yläreunan ikonista pääsee takaisin listaan.
-
-Editointinäkymässä yläpalkissa on kuvakkeet muutosten tallentamista ja perumista varten. Tallennettaessa ruudulla näkyy hetken aikaa leijuke, jossa kerrotaan muutosten tallennuksesta. Painettaessa peru-nappia ruudulle tulee dialogi, jossa pitää vahvistaa peruminen edelliseen tallennettuun versioon. Lisäksi vasemman yläreunan ikonista pääsee takaisin listaan.
+Tätä tutkimusta varten tein kopion tomdroidin lähdekoodista versiosta 0.7.2 ja kopioin sen githubiin. Sieltä löytyy myös kaikki sovellukselle tekemäni testit \cite{tomdroid_github}.
 
 \begin{figure}[htb]
 \includegraphics[width=60mm]{tomdroid_noteview.png}
 \caption{Muistikirjan luku Tomdroidissa} \label{tomdroid_noteview}
 \end{figure}
+
+Tomdroidissa olennaisimmat näkymät ovat muistikirjalista, josta on ruutukaappaus kuvassa \ref{tomdroid_notelist}, yksittäisen muistikirjan selaaminen (kuvassa \ref{tomdroid_noteview}) ja sen editointi (kuvassa \ref{tomdroid_editview}). 
+
+Listanäkymässä näkyvät kaikki käyttäjän muistikirjat päivitysajan mukaan järjestettynä. Muistikirjan koskeminen avaa kyseisen muistikirjan selausnäkymän. Yläpalkin +-symboli luo uuden muistikirjan ja avaa sen muokkausnäkymään. Yläpalkin oikeassa reunassa on synkronointi-symboli, josta muistikirjojen tila päivitetään palvelimen kanssa.
+
+Selausnäkymässä voi lukea yksittäistä muistikirjaa. Jos tekstiä on enemmän kuin ruudulle mahtuu kerrallaan, sitä voi selata raahaamalla. Kynä-ikoni yläpalkissa avaa muistikirjan editointinäkymään. Yläpalkin oikean reunan ikonista voi jakaa muistikirjan toisiin sovelluksiin. Lisäksi vasemman yläreunan ikonista pääsee takaisin listaan.
+
+Editointinäkymässä yläpalkissa on kuvakkeet muutosten tallentamista ja perumista varten. Tallennettaessa ruudulla näkyy hetken aikaa leijuke, jossa kerrotaan muutosten tallennuksesta. Painettaessa peru-nappia ruudulle tulee dialogi, jossa pitää vahvistaa peruminen edelliseen tallennettuun versioon. Lisäksi vasemman yläreunan ikonista pääsee takaisin listaan.
 
 \begin{figure}[htb]
 \includegraphics[width=60mm]{tomdroid_editview.png}
@@ -59,7 +60,7 @@ Editointinäkymässä yläpalkissa on kuvakkeet muutosten tallentamista ja perum
 
 \subsection{Asennukset}
 
-\begin{lstlisting}[float,label=robotium_setup,caption=Robotium testirunko]
+\begin{lstlisting}[float,label=robotium_setup,caption=Robotium-testirunko]
 public class RobotiumTest 
        extends ActivityInstrumentationTestCase2<Tomdroid> {
 
@@ -82,7 +83,7 @@ public class RobotiumTest
 }
 \end{lstlisting}
 
-Robotiumin asennus on yksinkertaista. Projektin build pathiin tarvitsee vain lisätä robotiumin jar-paketti, jossa tulee kaikki tarvittava mukana. Itse robotium-testit perivät Androidin omasta ActivityInstrumentationTestCase2-yliluokasta. Listauksessa \ref{robotium_setup} on esitetty Robotium-testin runko ilman varsinaisia testejä. setUp()-metodissa alustetaan Solo, joka on Robotiumin testit suorittava olio. Se ottaa konstruktoriparametreina ActivityInstrumentationTestCase2:n tarjoaman instrumentaation ja testattavan aktiviteetin. tearDown()-metodissa kutsutaan finishOpenedActivities()-metodia, joka lopettaa kaikki testin aikana aktiivisena olleet aktiviteetit.
+Robotiumin asennus on yksinkertaista. Projektin build pathiin tarvitsee vain lisätä Robotiumin jar-paketti, jossa tulee kaikki tarvittava mukana. Itse Robotium-testit perivät Androidin omasta ActivityInstrumentationTestCase2-yliluokasta. Listauksessa \ref{robotium_setup} on esitetty Robotium-testin runko ilman varsinaisia testejä. setUp()-metodissa alustetaan Solo, joka on Robotiumin testit suorittava olio. Se ottaa konstruktoriparametreina ActivityInstrumentationTestCase2:n tarjoaman instrumentaation ja testattavan aktiviteetin. tearDown()-metodissa kutsutaan finishOpenedActivities()-metodia, joka lopettaa kaikki testin aikana aktiivisena olleet aktiviteetit.
 
 \begin{lstlisting}[float,label=delete_notes,caption=Muistikirjojen poisto]
 private void removeAllNotes() {
@@ -90,14 +91,14 @@ private void removeAllNotes() {
 }
 \end{lstlisting}
 
-Robotium-testeissä on huomattava, että jos sovellus muuttaa muistikortille tai muualle tallennettua tilaansa, on testeissä manuaalisesti pidettävä huolta, että sovellus resetoidaan takaisin alkuperäiseen tilaan, jotta testejä voi toistaa useita kertoja luotettavasti. Tomdroidin tapauksessa tämä tehtäisiin kutsumalla tearDown():ssa apumetodia removeAllNotes(), joka kutsuu Tomdroidin NoteManagerin deleteAllNotes()-metodia, joka poistaa kaikki sovelluksen tallentamat muistikirjat.
+Robotium-testeissä on huomattava, että jos sovellus muuttaa muistikortille tai muualle tallennettua tilaansa, on testeissä manuaalisesti pidettävä huolta, että sovellus resetoidaan takaisin alkuperäiseen tilaan, jotta testejä voi toistaa useita kertoja luotettavasti. Tomdroidin tapauksessa tämä tehtäisiin kutsumalla tearDown():ssa apumetodia removeAllNotes(), joka on esitetty listauksessa \ref{delete_notes}. Metodi kutsuu Tomdroidin NoteManagerin deleteAllNotes()-metodia, joka poistaa kaikki sovelluksen tallentamat muistikirjat.
 
 \begin{lstlisting}[float, label=troyd_run, caption=Troyd-nauhoitusskriptin ja testien ajaminen]
 ruby bin/rec.rb apks/org.tomdroid.apk
 ruby bin/trun.rb
 \end{lstlisting}
 
-Troyd vaatii toimiakseen Rubyn version 1.8.7 sekä nokogiri-xml-kirjaston. Lisäksi se tukee vain Androidin versiota 2.3.6, joten uudemman Android-version vaativien sovellusten testaaminen ei ole sillä mahdollista. Troydin asennus kesti huomattavasti Robotiumin asennusta kauemmin, vaikka koneellani oli valmiiksi asennettuna Rubyn versionhallintatyökalu rvm \cite{rvm}, jolla oikean ruby-version asennus onnistuu yhdellä komennolla. Rubyn versio 1.8.7 on myös varsin vanha rubyn versio (julkaistu kesällä 2008 \cite{ruby_187}), joten joissain järjestelmissä näin vanhan version asennus voi olla haasteellista. Asennusten jälkeen Troydin testin kirjoittaminen onnistui kuitenkin nopeasti nauhoitus-skriptin avulla, joka hoiti kaiken muun kuin itse testikoodin kirjoittamisen. Nauhoitus ja ajoskriptit listauksessa \ref{troyd_run}. rec.rb on nauhoitusskripti, jolla testit kirjoitetaan ja trun.rb ajoskripti, joka ajaa oletuksena kaikki testcases-hakemistosta löytyvät testit. Testit voivat olla myös eri sovelluksille, jolloin Troyd asentaa kunkin testattavan sovelluksen erikseen.
+Troyd vaatii toimiakseen Rubyn version 1.8.7 sekä nokogiri-xml-kirjaston. Lisäksi se tukee vain Androidin versiota 2.3.6, joten uudemman Android-version vaativien sovellusten testaaminen ei ole sillä mahdollista. Troydin asennus kesti huomattavasti Robotiumin asennusta kauemmin, vaikka koneellani oli valmiiksi asennettuna Rubyn versionhallintatyökalu rvm \cite{rvm}, jolla oikean ruby-version asennus onnistuu yhdellä komennolla. Rubyn versio 1.8.7 on julkaistu kesällä 2008 \cite{ruby_187}, ja on siten varsin vanha Rubyn versio, joten joissain järjestelmissä näin vanhan version asennus voi olla haasteellista. Asennusten jälkeen Troydin testin kirjoittaminen onnistui kuitenkin nopeasti nauhoitusskriptin avulla, joka hoiti kaiken muun kuin itse testikoodin kirjoittamisen. Nauhoitus ja ajoskriptit on esitetty listauksessa \ref{troyd_run}. rec.rb on nauhoitusskripti, jolla testit kirjoitetaan ja run.rb ajoskripti, joka ajaa oletuksena kaikki testcases-hakemistosta löytyvät testit. Testit voivat olla myös eri sovelluksille, jolloin Troyd asentaa kunkin testattavan sovelluksen erikseen.
 
 \begin{lstlisting}[float, label=uiautomator_run,caption=Uiautomator-testien ajaminen]
 #!/bin/sh
@@ -107,20 +108,26 @@ adb shell uiautomator runtest TomdroidUiAutomatorTest.jar
     -c org.tomdroid.test.UiAutomatorTest
 \end{lstlisting}
 
-Ui Automator vaatii vähintään androidin api-version 16, jonka mukana tulee uiautomator.jar-paketti, joka täytyy asettaa testiprojektin riippuvuuksiin android.jar:n ja junit3:n ohella. Lisäksi testien ajaminen vaatii tietokoneessa kiinni olevan android-laitteen, johon testattava sovellus (tai sovellukset) on asennettuna. Testien kääntäminen ja ajaminen on esitetty listauksessa \ref{uiautomator_run}. Testit käännetään Apache Antilla \cite{ant}, joka on avoin käännöstyökalu Java-sovellusten kääntämiseen. Toisella rivillä käytetään androidin mukana tulevaa adb-työkalua (Android debug bridge) käännetyn testisovelluksen siirtämiseen puhelimeen ja kolmannella rivillä ajetaan testisovelluksesta luokka org.tomdroid.test.UiAutomatorTest.
+Uiautomator vaatii vähintään Androidin API-version 16, jonka mukana tulee uiautomator.jar-paketti, joka täytyy asettaa testiprojektin riippuvuuksiin Androidin ja JUnitin ohella. Lisäksi testien ajaminen vaatii tietokoneessa kiinni olevan Android-laitteen, johon testattava sovellus (tai sovellukset) on asennettuna. Testien kääntäminen ja ajaminen on esitetty listauksessa \ref{uiautomator_run}. Testit käännetään Apache Antilla \cite{ant}, joka on avoimen lähdekoodin käännöstyökalu Java-sovelluksille. Toisella rivillä käytetään Androidin mukana tulevaa adb-työkalua (Android debug bridge) käännetyn testisovelluksen siirtämiseen puhelimeen ja kolmannella rivillä ajetaan testisovelluksesta luokka org.tomdroid.test.UiAutomatorTest.
 
 \subsection{Robotium-testit}
 
-\begin{lstlisting}[float,label=robotium_createnote,caption=Muistikirjan luontitesti robotiumilla]
+\begin{lstlisting}[float,label=robotium_createnote,caption=Muistikirjan luontitesti Robotiumilla]
 public void testCreateNoteAddsNote() {
-	solo.assertCurrentActivity("Testi alkoi väärästä aktiviteetista", Tomdroid.class);
+	solo.assertCurrentActivity(
+	    "Testi alkoi väärästä aktiviteetista", 
+	    Tomdroid.class);
 	assertFalse(solo.searchText("new note"));
 	solo.clickOnActionBarItem(R.id.menuNew);
-	solo.assertCurrentActivity("Uuden muistikirjan luonti ei avannut uutta muistikirjaa editointinäkymään", EditNote.class);
+	solo.assertCurrentActivity(
+	    "Uuden muistikirjan luonti ei avannut editointinäkymää", 
+	    EditNote.class);
 	solo.enterText(0, "new note");
 	solo.clickOnActionBarItem(R.id.edit_note_save);
 	solo.clickOnActionBarHomeButton();
-	solo.assertCurrentActivity("Koti-näppäimen painaminen ei vienyt takaisin muistikirjalistaan", Tomdroid.class);
+	solo.assertCurrentActivity(
+	    "Koti-näppäimen painaminen ei vienyt takaisin muistikirjalistaan", 
+	    Tomdroid.class);
 	assertTrue(solo.searchText("new note"));
 }
 \end{lstlisting}
@@ -141,20 +148,20 @@ def test_"create note adds note"
 end
 \end{lstlisting}
 
-Troyd-testi, jossa luodaan muistikirja, on esitetty listauksessa \ref{troyd_createnote}. TROYD-testit asentavat aina ensimmäisenä uuteen emulaattoriin koko sovelluksen, joten robotium-testissä tarvittuja vanhojen muistikirjojen poistoa ei tarvita. Tein testin Troydin nauhoitusskriptin avulla, joten itse testi on automaattisesti kirjoitettu tämän pohjalta. Testitiedosto sisältää testimetodin lisäksi metodit sovelluksen alustamiselle ja lopettamiselle sekä testeissä käytetyt ruby-metodit, mutta nämä kaikki TROYD tuotti automaattisesti nauhoitusskriptin avulla. Itse testimetodin sisältö on sama kuin testiskriptissä kirjoittamani komennot. Lisäksi näin sovelluksen testiä vastaavassa tilassa emulaattorissa testiä kirjoittaessa, mikä helpotti testin kirjoittamista. Listauksessa on lisäksi huomautettava, että Rubyssa metodien sulut ovat vapaaehtoiset, mikäli sekaantumisen vaaraa ei ole, siksi testissä metodien parametrit eivät ole sulkujen sisällä. Kun nauhoitusskriptissä on saanut haluamansa testitapauksen valmiiksi, se tallennetaan sofar-metodilla, jonka parametrina on testin nimi, kuten on tehty listauksessa \ref{troyd_record_save}. Finish-komento lopettaa nauhoitusskriptin.
+Troyd-testi, jossa luodaan muistikirja, on esitetty listauksessa \ref{troyd_createnote}. Troyd-testit asentavat aina ensimmäisenä uuteen emulaattoriin koko sovelluksen, joten Robotium-testissä tarvittuja vanhojen muistikirjojen poistoa ei tarvita. Tein testin Troydin nauhoitusskriptin avulla, joten itse testi on automaattisesti kirjoitettu tämän pohjalta. Testitiedosto sisältää testimetodin lisäksi metodit sovelluksen alustamiselle ja lopettamiselle sekä testeissä käytetyt Ruby-metodit, mutta nämä kaikki Troyd tuotti automaattisesti nauhoitusskriptin avulla. Itse testimetodin sisältö on sama kuin testiskriptissä kirjoittamani komennot. Lisäksi näin sovelluksen testiä vastaavassa tilassa emulaattorissa testiä kirjoittaessa, mikä helpotti testin kirjoittamista. Listauksessa on lisäksi huomautettava, että Rubyssa metodien sulut ovat vapaaehtoiset, mikäli sekaantumisen vaaraa ei ole, siksi testissä metodien parametrit eivät ole sulkujen sisällä. Kun nauhoitusskriptissä on saanut haluamansa testitapauksen valmiiksi, se tallennetaan sofar-metodilla, jonka parametrina on testin nimi, kuten on tehty listauksessa \ref{troyd_record_save}. Finish-komento lopettaa nauhoitusskriptin.
 
 \begin{lstlisting}[float, label=troyd_record_save,caption=Testin tallennus nauhoitusskriptistä Troydilla]
 sofar "create note adds note"
 finish
 \end{lstlisting}
 
-Testin ensimmäisellä rivillä painetaan OK-nappia, koska sovellus näyttää ensimmäisellä käynnistyskerralla ohje-tekstin. Troydilla ei voi varmistaa, missä aktiviteetissa ollaan, kuten Robotium-testissä tehtiin, joskin listan tähän mennessä vierailluista aktiviteeteista saisi getActivities-metodilla. Troyd ei myöskään tue Robotium-testissä käytettyä R-olion id:n perusteella elementtien etsimistä, vaan elementit etsitään indeksin perusteella järjestyksessä ruudulta. Sen takia testi luettuna ei ole aivan yhtä selkeä, kuin robotium-testit. Tässä testissä ensimmäinen clickImg painaa uuden muistikirjan luovaa nappia, toinen clickImg tallennus-nappia ja kolmas clickImg palaa takaisin listaukseen -nappia.
+Testin ensimmäisellä rivillä painetaan OK-nappia, koska sovellus näyttää ensimmäisellä käynnistyskerralla ohje-tekstin. Troydilla ei voi varmistaa, missä aktiviteetissa ollaan, kuten Robotium-testissä tehtiin, joskin listan tähän mennessä vierailluista aktiviteeteista saisi getActivities-metodilla. Troyd ei myöskään tue Robotium-testissä käytettyä R-luokan id:n perusteella elementtien etsimistä, vaan elementit etsitään indeksin perusteella järjestyksessä ruudulta. Sen takia testi luettuna ei ole yhtä selkeä, kuin Robotium-testit. Tässä testissä ensimmäinen clickImg-metodi painaa uuden muistikirjan luovaa nappia, toinen clickImg tallennus-nappia ja kolmas clickImg palaa takaisin listaukseen -nappia.
 
-Testien kirjoittaminen sujui Troydilla nopeasti, mutta toisaalta osaan Rubya suunnilleen yhtä hyvin kuin Javaakin, joten erilainen syntaksi ei häirinnyt kirjoitusta. Nauhoitusskripti on kuitenkin vielä hieman raakile, esimerkiksi ruudulta löytymättömän indeksin klikkaaminen kaatoi sovelluksen ja pakotti aloittamaan nauhoituksen alusta.
+Testien kirjoittaminen sujui Troydilla nopeasti, mutta toisaalta osaan Rubya yhtä hyvin kuin Javaakin, joten erilainen syntaksi ei häirinnyt kirjoitusta. Nauhoitusskripti on kuitenkin vielä hieman raakile, esimerkiksi ruudulta löytymättömän indeksin klikkaaminen kaatoi sovelluksen ja pakotti aloittamaan nauhoituksen alusta.
 
 \subsection{Uiautomator-testit}
 
-\begin{lstlisting}[float, label=uiautomator_createnote,caption=Muistikirjan luontitesti Ui Automatorilla]
+\begin{lstlisting}[float, label=uiautomator_createnote,caption=Muistikirjan luontitesti Uiautomatorilla]
 public class UiAutomatorTest extends UiAutomatorTestCase {
   public void testCreateNoteAddsNote() 
               throws UiObjectNotFoundException {
@@ -168,13 +175,15 @@ public class UiAutomatorTest extends UiAutomatorTestCase {
     selector = new UiSelector().description("New")
     UiObject newNoteButton = new UiObject(selector);
     newNoteButton.clickAndWaitForNewWindow();
-    selector = new UiSelector().className("android.widget.EditText")
+    selector = 
+        new UiSelector().className("android.widget.EditText")
     UiObject titleEditText = new UiObject(selector);
     titleEditText.setText("new note");
     selector = new UiSelector().description("Save")
     UiObject saveButton = new UiObject(selector);
     saveButton.click();
-    selector = new UiSelector().description("Siirry etusivulle")
+    selector = 
+        new UiSelector().description("Siirry etusivulle")
     UiObject homeButton = new UiObject(selector);
     homeButton.clickAndWaitForNewWindow();
     selector = new UiSelector().text("new note")
@@ -185,7 +194,7 @@ public class UiAutomatorTest extends UiAutomatorTestCase {
 }
 \end{lstlisting}
 
-Listauksessa \ref{uiautomator_createnote} on esitetty Ui automator -testi, jossa luodaan uusi muistikirja. Testi perii yliluokan UiAutomatorTestCase. Testeissä ajetaan JUnit3-tyylin mukaisesti test-alkuiset metodit. Testimetodi heittää UiObjectNotFoundExceptionin, jos yritetään tehdä interaktiota komponentin kanssa, jota ei lyödetty selectorilla. Testissä käytetään pääosin kahta UiAutomatorin mekaniikkaa. UiSelectorin eri metodeilla etsitään käyttöliittymäelementtejä, joiden avulla konstruoidaan UiObject-olioita, joiden kanssa sitten kommunikoidaan tai kysytään niiden tilaa. 
+Listauksessa \ref{uiautomator_createnote} on esitetty Uiautomator -testi, jossa luodaan uusi muistikirja. Testi perii yliluokan UiAutomatorTestCase. Testeissä ajetaan JUnit3-tyylin mukaisesti test-alkuiset metodit. Testimetodi heittää UiObjectNotFoundExceptionin, jos yritetään tehdä interaktiota komponentin kanssa, jota ei lyödetty selectorilla. Testissä käytetään pääosin kahta UiAutomatorin mekaniikkaa. UiSelectorin eri metodeilla etsitään käyttöliittymäelementtejä, joiden avulla konstruoidaan UiObject-olioita, joiden kanssa sitten kommunikoidaan tai kysytään niiden tilaa. 
 
 Testissä käytetään kolmea eri UiSelectorin hakumetodia: text()-metodi hakee käyttöliittymäelementtiä, johon liittyy parametrina annettu näkyvä teksti, description()-metodi käyttää hakemiseen elementille liitettyä selitettä, esimerkiksi resurssi-tiedoston kautta annettua. className()-metodi etsii kaikki elementit, jotka ovat annetun luokan ilmentymiä, ja palauttaa niistä ensimmäisen.
 
@@ -195,13 +204,12 @@ Ui automator -testit alkavat siitä tilasta, missä puhelin on testin käynnisty
 
 Kun sovellus on avattu, testi etenee kuten Robotium-testissäkin. Ensin varmistetaan, että \"new note\"-nimistä muistikirjaa ei löydy valmiiksi listalta, sitten painetaan uusi muistikirja -nappia. Seuraavaksi etsitään ensimmäinen EditText-elementti ruudulta, ja syötetään siihen muistikirjan nimi. Sitten tallennetaan muistikirja, palataan muistikirjalistaan ja varmistetaan, että muistikirja tallentui.
 
-Lopuksi testissä kutsutaan removeCreatedNote()-metodia, joka poistaa juuri luodun muistikirjan. Koska ui automator -testit eivät pääse käsiksi ohjelmakoodiin kuten robotium-testit, joudutaan tehdyt muutokset perumaan käyttöliittymän kautta. (Tsekkaa developer options -mahdollisuus estää pysyvät muutokset) Poistometodi saa parametrinaan valmiiksi viitteen luotuun muistikirjaan etusivulla, joten, sitä ei tarvitse hakea uudestaan.
-
-\begin{lstlisting}[float, label=uiautomator_teardown,caption=Luodun muistikirjan poisto ui automatorilla] 
+\begin{lstlisting}[float,label=uiautomator_teardown,caption=Luodun muistikirjan poisto Uiautomatorilla] 
 private void removeCreatedNote(UiObject noteText) 
              throws UiObjectNotFoundException {
   noteText.clickAndWaitForNewWindow();
-  UiSelector selector = new UiSelector().description("Lisää asetuksia")
+  UiSelector selector = 
+      new UiSelector().description("Lisää asetuksia")
   UiObject moreOptionsButton = new UiObject(selector);
   moreOptionsButton.click();
   selector = new UiSelector().text("Delete")
@@ -213,7 +221,7 @@ private void removeCreatedNote(UiObject noteText)
 }
 \end{lstlisting}
 
-removeCreatedNote()-metodi on esitetty listauksessa \ref{uiautomator-teardown}
+Lopuksi testissä kutsutaan removeCreatedNote()-metodia, joka on esitetty listauksessa \ref{uiautomator_teardown}. Metodi poistaa juuri luodun muistikirjan. Koska Uiautomator-testit eivät pääse käsiksi ohjelmakoodiin kuten Robotium-testit, joudutaan tehdyt muutokset perumaan käyttöliittymän kautta. Poistometodi saa parametrinaan valmiiksi viitteen luotuun muistikirjaan etusivulla, joten, sitä ei tarvitse hakea uudestaan.
 
 \subsection{Testien suoritusnopeudet}
 
@@ -237,7 +245,7 @@ Eri testityökalujen testien ajoajat on esitetty taulukossa \ref{uitest_timing}.
 
 Troyd-testit ajoin emulaattorissa trun.rb-skriptillä ja ajastin unixin time-työkalulla. Testiajoa hidastaa se, että joka ajokerralla emulaattori käynnistetään ja testattava sovellus asennetaan emulaattoriin. Toisaalta tästä syystä testien kirjoittaminen on helpompaa, koska sovellusta ei tarvitse palauttaa testejä edeltävään tilaan kuten Robotiumilla ja Ui automatorilla ajaessa. (Tsekkaa myös, olisiko nopeampaa (olisi) ajaa troyd-testit suoraan puhelimessa)
 
-Ui Automator -testit ajoin listauksessa \ref{uiautomator_run} esitetyllä shell-skriptillä ja ajoitin testit unixin time-työkalulla. Testiajon kestoon sisältyy testien kääntäminen, siirtäminen puhelimeen ja itse testiajo. Ui Automator -testin kestoon sisältyy myös luodun muistikirjan poisto käyttöliittymästä. Testeissä oletetaan, että sovellus on valmiiksi asennettuna koneeseen kytkettyyn puhelimeen.
+Uiautomator-testit ajoin listauksessa \ref{uiautomator_run} esitetyllä shell-skriptillä ja ajoitin testit unixin time-työkalulla. Testiajon kestoon sisältyy testien kääntäminen, siirtäminen puhelimeen ja itse testiajo. Uiautomator-testin kestoon sisältyy myös luodun muistikirjan poisto käyttöliittymästä. Testeissä oletetaan, että sovellus on valmiiksi asennettuna koneeseen kytkettyyn puhelimeen.
 
 \subsection{Analyysi}
 

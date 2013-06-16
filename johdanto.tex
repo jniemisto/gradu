@@ -1,33 +1,21 @@
 \section{Johdanto}
 
-Googlen kehittämä Android on noussut viime vuosina markkinaosuudeltaan suurimmaksi mobiililaitteiden käyttöjärjestelmäksi. Kuka tahansa voi kehittää Androidille sovelluksia, joiden kehittämiseen tarvittavat välineet ovat ilmaiseksi saatavilla. Erilaisia sovelluksia onkin kehitetty jo noin 500 000.
+Googlen kehittämä Android on noussut viime vuosina markkinaosuudeltaan suurimmaksi mobiililaitteiden käyttöjärjestelmäksi. Kuka tahansa voi kehittää Androidille sovelluksia, joiden kehittämiseen tarvittavat välineet ovat ilmaiseksi saatavilla. Erilaisia sovelluksia onkin kehitetty jo yli 500 000.
 
 Mobiilisovellusten kehittämiseen liittyy monia haasteita. Niitä ovat muunmuassa rajalliset laitteistoresurssit, käytettävyys pienellä näytöllä sekä yksityisyyteen ja tietoturvaan liittyvät kysymykset. Androidilla on lisäksi esimerkiksi Applen iOS-alustaan verrattuna omana haasteenaan Android-laitteiden valtava kirjo. Android-laitteita valmistavat kymmenet eri valmistajat ja ne vaihtelevat kameroista tablettien kautta digibokseihin. Laitteissa on hyvin eritehoisia prosessoreita ja lisälaitteita, kuten gps- tai kiihtyvyysantureita, on vaihtelevasti.
 
-Testaamisen tavoitteet (miksi testataan, erit. mobiili)
+Sovellusten laatu on erityisen tärkeää Android-alustalla, jossa kilpailua on runsaasti ja sovellusten hinta niin alhainen, ettei se muodosta estettä sovelluksen vaihtamista toiseen. Sovelluskauppa on myös aina saatavilla suoraan laitteesta. Tämä asettaa sovellusten testaamisellekin haasteita. Toisaalta sovellukset tulisi saada nopeasti sovelluskauppaan, mutta myös sovellusten laadun pitäisi olla hyvä. Testityökalujen pitäisi siis olla helppokäyttöisiä, ja tehokkaita. Androidille onkin kehitetty lukuisia testaustyökaluja Googlen omien työkalujen lisäksi.
 
-Sovellusten laatu on erityisen tärkeää Android-alustalla, jossa kilpailua on runsaasti ja sovellusten hinta niin alhainen, ettei se muodosta estettä sovelluksen vaihtamista toiseen. Sovelluskauppa on myös aina saatavilla suoraan laitteesta.
+Tutkimuksen tavoitteena on perehtyä Android-sovellusten rakenteeseen, niiden testaamiseen ja Android-alustalla toimiviin automaattisen testauksen työkaluihin. Tutustun kirjallisuudessa esiteltyihin sekä Androidin kehitystyökalujen mukana tuleviin testaustyökaluihin. Kirjallisuuskatsauksen lisäksi vertailen työkaluja testaamalla niiden avulla esimerkkisovellusta ja analysoin testien perusteella niiden puutteita ja vahvuuksia.
 
-Gradun tavoitteena on syventyä Android-sovellusten testaamiseen ja testaustyökaluihin. Tutustun kirjallisuudessa esiteltyihin sekä Androidin kehitystyökalujen mukana tuleviin testaustyökaluihin. Kirjallisuuskatsauksen lisäksi vertailen työkaluja testaamalla niiden avulla esimerkkisovellusta ja analysoin testien perusteella niiden puutteita ja vahvuuksia.
+Käsittelen tässä tutkimuksessa vain Androidille Javalla kehitettyjä natiivisovelluksia. Androidille voi kehittää sovelluksia myös muunmuassa html5:llä ja erilaisilla työkaluilla, jotka generoivat automaattisesti natiivikoodia useille mobiilialustoille. Osa testaustyökaluista mahdollistaa toki myös tällaisten sovellusten testaamisen. Keskityn vain automaattisiin testaustyökaluihin, joten esimerkiksi manuaaliseen käytettävyystestaukseen liittyvät prosessit ja työkalut on rajattu tämän työn ulkopuolelle.
 
-Käsittelyssä nimenomaan automaattisen testauksen työkalut.
-
-Käsittelen gradussa vain Androidille javalla kehitettyjä natiivi-sovelluksia. Androidille voi kehittää sovelluksia myös muunmuassa html5:llä ja erilaisilla työkaluilla, jotka generoivat automaattisesti natiivikoodia useille mobiilialustoille. Osa testaustyökaluista mahdollistaa toki myös tällaisten sovellusten testaamisen. Keskityn vain automaattisiin testaustyökaluihin, joten esimerkiksi manuaaliseen käytettävyystestaukseen liittyvät prosessit ja työkalut on rajattu tämän työn ulkopuolelle.
+Keskityn erityisesti yksikkö- ja toiminnallisiin testityökaluihin. Yksikkötestityökaluja käyttävät useimmiten sovelluksen ohjelmoijat itse sovelluksen koodausvaiheessa. Yleistä on myös yksikkötestien kirjoittaminen jo ennen vastaavan ohjelmakoodin kirjoittamista. Toiminnallisissa testeissä testataan sovellusta hieman korkeammalta tasolta, jolloin pyritään varmistamaan haluttujen toiminnallisuuksien toiminta kokonaisuudessaan sovelluksessa. Nämä työkalut olen valinnut huomion kohteeksi, koska toiminnallinen ja yksikkötestaus ovat yleisimmät testauksen muodot mobiilisovellusta kehitettäessä ja työkaluvalikoima on myös monipuolisin.
 
 Toisessa luvussa esittelen Androidin kehitystyökaluja sekä arkkitehtuuria sovellusten kehittäjän näkökulmasta. Luvussa tutustutaan Androidin tärkeimpiin komponentteihin: aktiviteetteihin, palveluihin ja sisällöntarjoajiin sekä komponenttien väliseen kommunikointiin aikeiden avulla. Lisäksi esittelen Android manifestin sekä Androidin matalan tason tietoturvaratkaisuja.
 
-Kolmannessa luvussa käsitellään ohjelmistojen testaamisen perusasioita, testausta osana ohjelmistotuotantoprosessia sekä mobiilisovellusten testaamisen erityispiirteitä. Lisäksi pohditaan testaustyökalujen arviointia ja laatukriteerejä. Androidin kehitystyökalupakettin mukana tulee runsaasti testaustyökaluja. Esittelen niitä luvussa neljä. Lisäksi käsittelen Android-laitteiden fragmentaatiota.
+Kolmannessa luvussa käsitellään ohjelmistojen testaamisen perusasioita, testausta osana ohjelmistotuotantoprosessia sekä mobiilisovellusten testaamisen erityispiirteitä. Lisäksi pohditaan testaustyökalujen arviointia ja laatukriteerejä. Androidin kehitystyökalupakettin mukana tulee runsaasti testaustyökaluja. Esittelen niitä luvussa neljä.
 
 Viidennessä luvussa syvennytään yksikkötestityökaluihin. Vertailen Androidin yksikkötestikehystä avoimen lähdekoodin Robolectriciin, joka pyrkii tarjoamaan Androidin oman yksikkötestikehyksen ominaisuudet tavanomaisessa Java-ympäristössä, jotta testien ajaminen olisi nopeampaa. Selvitän luvussa myös yksikkötestikehysten yhteensopivuutta mock-kehysten kanssa.
 
-Kuudennessa luvussa käsitellään toiminnallisen testauksen työkaluja. Vertailen Androidin UIAutomator-työkalun lisäksi Robotium ja Troyd -testityökaluja.
-
-Seitsemännessä luvussa esitellään vielä lyhyesti muita kolmansien osapuolien testityökaluja, joita ei ole aiemmissa luvuissa käsitelty kokonaiskuvan saamiseksi Androidin testityökaluista.
-
-
-Aihe-esittelyssä listatut alustavat lähteet: 
-\cite{hyungkeunetal11}
-\cite{kropp10}
-\cite{mirzaeietal12}
-\cite{wasserman10}
-\cite{hampark11}
+Kuudennessa luvussa käsitellään toiminnallisen testauksen työkaluja. Vertailen Androidin Uiautomator-työkalun lisäksi Robotium ja Troyd -testityökaluja. Kukin näistä työkaluista tarjoaa hieman erilaisen lähestymistavan ja abstraktiotason toiminnallisten testien kirjoittamiseen.

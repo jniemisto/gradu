@@ -1,0 +1,410 @@
+
+\begin{lstlisting}[caption=GameActivity.java]
+
+package com.example.demo;
+
+import com.example.demo.GameView.GameState;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+
+public class GameActivity extends Activity implements OnGameEndEventListener {
+  public final static String SCORE = "com.example.demo.SCORE";
+  private GameView mGameView;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.game_layout);
+    mGameView = (GameView) findViewById(R.id.gameview);
+    mGameView.setGameEndEventListener(this);
+    mGameView.setState(GameState.RUNNING);
+  }
+
+  @Override
+  protected void onPause() {
+    mGameView.setState(GameState.PAUSED);
+    super.onPause();
+  }
+	
+  @Override
+  protected void onStop() {
+    mGameView.setState(GameState.PAUSED);
+    super.onStop();
+  }
+	
+  @Override
+  protected void onRestart() {
+    mGameView.setState(GameState.RUNNING);
+    super.onRestart();
+  }
+	
+  @Override
+  protected void onResume() {
+    mGameView.setState(GameState.RUNNING);
+    super.onResume();
+  }
+	
+  public void onGameEnd(double score) {
+    Intent intent = new Intent(this, MainActivity.class);
+    intent.putExtra(SCORE, String.valueOf(score));
+    startActivity(intent);	  
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=GameView.java]
+package com.example.demo;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Handler;
+import android.os.Message;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+
+public class GameView extends View {
+	
+  public enum GameState {
+    READY, RUNNING, PAUSED, LOST;
+  }
+	
+  private RefreshHandler mRedrawHandler = new RefreshHandler();
+  private long mMoveDelay = 50;
+  private List<Circle> mCircles;
+  private Circle mPlayer;
+  private GameState mState;
+  private GameClock mClock;
+  private OnGameEndEventListener mOnGameEndEventListener;
+	
+  public GameView(Context context, AttributeSet attributes) {
+    super(context, attributes);
+    mClock = new GameClock();
+    initPlayer();
+    initCircles();
+    mState = GameState.READY;
+  }
+
+  private void initPlayer() {
+    Paint paint = new Paint();
+    paint.setARGB(255, 255, 0, 0);
+    mPlayer = new Circle(20, 100, 100, paint);
+  }
+
+  private void initCircles() {
+    mCircles = new ArrayList<Circle>();
+    Paint circlePaint = new Paint();
+    circlePaint.setARGB(255, 0, 0, 255);
+    Random random = new Random();
+    int numCircles = 3+random.nextInt(3);
+    for (int i=0;i<numCircles;i++) {
+      int radius = random.nextInt(35)+5;
+      int speedX = random.nextInt(20)-10;
+      int speedY = random.nextInt(20)-10;
+      Circle circle = new Circle(radius, 300, 550, speedX, speedY, 450, 700, circlePaint);
+      mCircles.add(circle);
+    }
+  }
+	
+  public void setState(GameState newState) {
+    GameState oldState = mState;
+    mState = newState;
+    if (oldState != GameState.RUNNING && newState == GameState.RUNNING) {
+      mClock.start();
+      update();
+    }
+    if (newState != GameState.RUNNING) {
+      mClock.pause();
+    }
+    if (mState == GameState.LOST && mOnGameEndEventListener != null) {
+      mOnGameEndEventListener.onGameEnd(mClock.getTime()/1000.0);
+    }
+  }
+	
+  public GameState getState() {
+    return mState;
+  }
+	
+  public void setGameEndEventListener(OnGameEndEventListener onGameEndEventListener) {
+    mOnGameEndEventListener = onGameEndEventListener;
+  }
+
+  @Override
+  protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+    canvas.drawCircle(mPlayer.getX(), mPlayer.getY(), mPlayer.getRadius(), mPlayer.getPaint());
+    for (Circle circle : mCircles) {
+      canvas.drawCircle(circle.getX(), circle.getY(), circle.getRadius(), circle.getPaint());
+    }
+  }
+	
+  protected void update() {
+    if (mState == GameState.RUNNING) {
+      for (Circle circle : mCircles) {
+        circle.update();
+        if (circle.collisionWith(mPlayer)) {
+          setState(GameState.LOST);
+        }
+      }
+      mRedrawHandler.sleep(mMoveDelay);
+    }
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    if (mState == GameState.RUNNING) {
+      mPlayer.setX((int)event.getX());
+      mPlayer.setY((int)event.getY());
+      invalidate();
+    }
+    return super.onTouchEvent(event);
+  }
+	
+  class RefreshHandler extends Handler {
+    @Override
+    public void handleMessage(Message msg) {
+      GameView.this.update();
+      GameView.this.invalidate();
+    }
+
+    public void sleep(long delayMillis) {
+      this.removeMessages(0);
+      sendMessageDelayed(obtainMessage(0), delayMillis);
+    }
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=MainActivity.java]
+package com.example.demo;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main_layout);
+    showScore();
+	}
+
+  private void showScore() {
+    Intent intent = getIntent();
+    String message = intent.getStringExtra(GameActivity.SCORE);
+    TextView scoreText = (TextView) findViewById(R.id.scoretext);
+    if (message != null && !message.equals("")) {
+      scoreText.setText("Selvisit "+message+" sekuntia!");
+    }
+  }
+	
+  public void startGame(View view) {
+    Intent intent = new Intent(this, GameActivity.class);
+    startActivity(intent);
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Circle.java]
+package com.example.demo;
+
+import android.graphics.Paint;
+
+public class Circle {
+
+  private final int mRadius;
+  private int mPositionX;
+  private int mPositionY;
+  private int mSpeedX;
+  private int mSpeedY;
+  private final Paint mPaint;
+  private final int mWorldWidth;
+  private final int mWorldHeight;
+
+  public Circle(final int radius, final int positionX, final int positionY, final int speedX, final int speedY, final int worldWidth, final int worldHeight, final Paint paint) {
+    this.mRadius = radius;
+    this.mPositionX = positionX;
+    this.mPositionY = positionY;
+    this.mSpeedX = speedX;
+    this.mSpeedY = speedY;
+    this.mWorldWidth = worldWidth;
+    this.mWorldHeight = worldHeight;
+    this.mPaint = paint;
+  }
+	
+  public Circle(final int radius, final int positionX, final int positionY, Paint paint) {
+    this(radius,positionX,positionY,0,0,0,0,paint);
+  }
+	
+  public int getX() {
+    return mPositionX;
+  }
+
+  public int getY() {
+    return mPositionY;
+  }
+	
+  public void setX(int x) {
+    mPositionX = x;
+  }
+	
+  public void setY(int y) {
+    mPositionY = y;
+  }
+	
+  public Paint getPaint() {
+    return mPaint;
+  }
+	
+  public int getRadius() {
+    return mRadius;
+  }
+	
+  public void update() {
+    mPositionX += mSpeedX;
+    if (mPositionX > mWorldWidth-mRadius || mPositionX < mRadius) {
+      mSpeedX = -1 * mSpeedX;
+    }
+    mPositionY += mSpeedY;
+    if (mPositionY > mWorldHeight - mRadius || mPositionY < mRadius) {
+      mSpeedY = -1 * mSpeedY;
+    }
+  }
+	
+  public boolean collisionWith(Circle circle) {
+    Double distance = Math.sqrt(Math.pow(circle.getX() - mPositionX, 2) + Math.pow(circle.getY()-mPositionY, 2));
+    return distance < mRadius + circle.getRadius();
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=GameClock.java]
+
+package com.example.demo;
+
+public class GameClock {
+
+  private long mStartTime;
+  private long mPausedAt;
+  private boolean mRunning;
+	
+  public GameClock() {
+    mRunning = false;
+    mStartTime = 0;
+    mPausedAt = 0;
+  }
+	
+  public void start() {
+    if (!mRunning) {
+      mStartTime = System.currentTimeMillis() - mPausedAt;	
+    }
+    mRunning = true;
+  }
+	
+  public void pause() {
+    if (mRunning) {
+      mPausedAt = System.currentTimeMillis()-mStartTime;
+    }
+    mRunning = false;
+  }
+	
+  public long getTime() {
+    if (mRunning) {
+      return System.currentTimeMillis()-mStartTime;
+    }
+    return mPausedAt;
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=OnGameEndEventListener.java]
+package com.example.demo;
+
+public interface OnGameEndEventListener {
+  public void onGameEnd(double score);
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[caption=game\_layout.xml]
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <com.example.demo.GameView
+    android:id="@+id/gameview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+</LinearLayout>
+
+\end{lstlisting}
+
+\begin{lstlisting}[caption=main\_layout.xml]
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/start_game"
+    android:onClick="startGame" />
+    
+  <TextView
+    android:id="@+id/scoretext"
+    android:text=""
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+</LinearLayout>
+\end{lstlisting}
+
+\begin{lstlisting}[caption=AndroidManifext.xml]
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.example.demo"
+  android:versionCode="1"
+  android:versionName="1.0" >
+
+  <uses-sdk
+    android:minSdkVersion="8"
+    android:targetSdkVersion="15" />
+
+  <application
+    android:icon="@drawable/ic_launcher"
+    android:label="@string/app_name"
+    android:theme="@style/AppTheme" >
+
+    <activity
+      android:name=".MainActivity"
+      android:label="@string/title_game" >
+            
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+        
+    <activity
+      android:name=".GameActivity"
+      android:label="@string/title_game" >
+    </activity>
+  </application>
+</manifest>
+\end{lstlisting}

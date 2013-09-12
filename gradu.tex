@@ -1,4 +1,4 @@
-\documentclass[emptyfirstpagenumber]{tktltiki}
+\documentclass[emptyfirstpagenumber,gradu]{tktltiki}
 \usepackage{ae,aecompl}
 \usepackage{url}
 \usepackage{amsfonts}
@@ -8,14 +8,19 @@
 \usepackage{listings}
 \lstset{
   literate={ö}{{\"o}}1
-           {ä}{{\"a}}1
+           {ä}{{\"a}}1,
+  breaklines=true,
+  showstringspaces=false,
+  basicstyle=\ttfamily\fontsize{11}{12}\selectfont
 }
 \usepackage{caption}
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\renewcommand\lstlistingname{Listaus}
 
 \begin{document}
+\sloppy
 \lstset{language=Java}
 \title{Android-sovellusten testaaminen}
 \author{Juho Niemistö}
@@ -29,12 +34,20 @@
 \faculty{Matemaattis-luonnontieteellinen}
 \department{Tietojenkäsittelytieteen laitos}
 \subject{Tietojenkäsittelytiede}
-\numberofpagesinformation{\numberofpages\ sivua}
+\numberofpagesinformation{\numberofpages\ sivua + \numberofappendixpages[100] liitesivua}
 
-\keywords{Android}
+\keywords{Android, testaus, yksikkötestaus, toiminnallinen testaus, mobiilisovellukset}
 
 \begin{abstract}
-	Ääkkönen
+Googlen kehittämä Android on noussut viime vuosina markkinaosuudeltaan suurimmaksi mobiililaitteiden käyttöjärjestelmäksi. Kuka tahansa voi kehittää Androidille sovelluksia, joiden kehittämiseen tarvittavat välineet ovat ilmaiseksi saatavilla. Erilaisia sovelluksia onkin kehitetty jo yli 500 000.
+
+Sovellusten laatu on erityisen tärkeää Android-alustalla, jossa kilpailua on runsaasti ja sovellusten hinta niin alhainen, ettei se muodosta estettä sovelluksen vaihtamiselle toiseen. Sovelluskauppa on myös aina saatavilla suoraan laitteesta. Tämä asettaa sovellusten testaamisellekin haasteita. Toisaalta sovellukset tulisi saada nopeasti sovelluskauppaan, mutta myös sovellusten laadun pitäisi olla hyvä. Testityökalujen pitäisi siis olla helppokäyttöisiä, ja tehokkaita. Androidille onkin kehitetty lukuisia testaustyökaluja Googlen omien työkalujen lisäksi.
+
+Tässä tutkielmassa tutustutaan Android-sovellusten rakenteeseen, niiden testaamiseen ja Android-alustalla toimiviin automaattisen testauksen työkaluihin. Erityisesti keskitytään yksikkö- ja toiminnallisen testauksen työkaluihin. Yksikkötestityökaluista vertaillaan Androidin omaa yksikkötestikehystä Robolectriciin. Toiminnallisen testauksen työkaluista vertaillaan Uiautomatoria, Robotiumia ja Troydia.
+
+ACM Computing Classification System (CCS):
+D.2.5 Testing and Debugging
+
 \end{abstract}
 
 \setcounter{tocdepth}{3}
@@ -52,9 +65,9 @@
 \input{unittests}
 \clearpage
 \input{toiminnallinen}
+%%\clearpage
+%%\input{muita}
 \clearpage
-%% \input{muita}
-%% \clearpage
 \input{yhteenveto}
 
 \clearpage
@@ -62,5 +75,10 @@
 \bibliography{lahteet}
 
 \lastpage
+
+\appendices
+
+\internalappendix{1}{Yksikkötesteissä testatun sovelluksen lähdekoodi}
+\input{pelikoodi}
 
 \end{document}

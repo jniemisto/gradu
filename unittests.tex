@@ -1,42 +1,47 @@
 \section{Yksikkötestityökalujen vertailua}
 
-Androidin yksikkötestaustapa on tehdä JUnit-testejä Androidin oman AndroidUnitTestCase-luokan aliluokkana. Nämä testit ajetaan emulaattorissa Dalvik-ympäristössä. Tässä tavassa on kaksi heikkoutta, jonka takia on kehitetty myös kolmansien osapuolien yksikkötestityökaluja Android-ympäristöön. Ensinnäkin testien ajaminen emulaattorissa on hitaampaa kuin jos niitä voisi ajaa suoraan tavallisessa Javan virtuaalikoneessa JUnit-testeinä. Toiseksi muutkaan testauksen apuna käytettävät työkalut, kuten jäljittelijä-työkalut, eivät välttämättä toimi ongelmitta Dalvik-ympäristössä. Tässä luvussa vertailen Android-sovelluksen yksikkötestausta AndroidUnitTestCasella ja suosituimmalla Javan virtuaalikoneessa pyörivällä vaihtoehdolla: Robolectricillä. Tavoitteena on selvittää, voiko Robolectricillä helposti korvata Androidin oman yksikkötestikehyksen ja pitääkö Robolectricin lupaus nopeammasta testien suoritusajasta paikkansa.
+Androidin yksikkötestaustapa on tehdä JUnit-testejä Androidin oman AndroidUnitTestCase-luokan aliluokkana. Nämä testit ajetaan emulaattorissa Dalvik-ympäristössä. Tässä tavassa on kaksi heikkoutta, jonka takia on kehitetty myös kolmansien osapuolien yksikkötestityökaluja Android-ympäristöön. Ensinnäkin testien ajaminen emulaattorissa on hitaampaa, kuin jos niitä voisi ajaa suoraan tavallisessa Javan virtuaalikoneessa JUnit-testeinä. Toiseksi muutkaan testauksen apuna käytettävät työkalut, kuten jäljittelijä-työkalut, eivät välttämättä toimi ongelmitta Dalvik-ympäristössä. Tässä luvussa vertailen Android-sovelluksen yksikkötestausta AndroidUnitTestCasella ja suosituimmalla Javan virtuaalikoneessa pyörivällä vaihtoehdolla: Robolectricillä. Tavoitteena on selvittää, voiko Robolectricillä helposti korvata Androidin oman yksikkötestikehyksen ja pitääkö Robolectricin lupaus nopeammasta testien suoritusajasta paikkansa.
 
-Yksikkötesteissä kiinnostavaa on nimenomaan Androidin keskeisten komponenttien testaus, koska ohjelmassa mahdollisesti olevat muut kuin Androidin kirjastoluokista perivät luokat on helppo testata tavanomaisilla Javan yksikkötestityökaluilla ilman erityisesti Androidille tarkoitettuja työkaluja.
+Android-sovellusten yksikkötestauksessa kiinnostavaa on nimenomaan Androidin kirjastoluokista perivien keskeisten komponenttien testaus, koska sovelluksessa mahdollisesti olevat muut kuin Androidin kirjastoluokista perivät luokat on helppo testata tavanomaisilla Javan yksikkötestityökaluilla ilman erityisesti Androidille tarkoitettuja työkaluja samaan tapaan kuin muutkin Java-sovellukset.
+
+Yksikkötestaustyökaluissa tärkeintä on nopeus, jotta tdd-kehityssykli toimisi mahdollisimman nopeasti, työkalun käytön helppous ja koodin ytimekkyys, jotta testien kirjoittaminen sujuu nopeasti, sekä yhteensopivuus jäljittelijäkehysten kanssa, jotta komponenttien yksikkötestaus muusta sovelluksesta eristettynä olisi mahdollista.
 
 \subsection{Robolectric}
 
-Robolectric on yksikkötestaustyökalu, jonka tarkoitus on mahdollistaa Android-koodin yksikkötestaus suoraan ohjelmointiympäristössä Javan virtuaalikoneessa ilman emulaattoria. Tarkoitus on mahdollistaa nopea TDD-sykli ja helpompi integrointi jatkuvan integroinnin palveluihin. Normaalisti Android-kirjaston luokat palauttavat kutsuttaessa ohjelmointiympäristöstä ajoaikaisen poikkeuksen, mutta Robolectric korvaa nämä luokat varjototeutuksilla, jotka palauttavat poikkeuksen sijaan tyhjän oletusvastauksen, kuten null, 0 tai false, tai jos Robolectricissa on kyseistä metodia varten olemassa varjototeutus, se palauttaa toteutuksen määrittelemän paluuarvon.
+Robolectric on yksikkötestaustyökalu, jonka tarkoitus on mahdollistaa Android-koodin yksikkötestaus suoraan ohjelmointiympäristössä Javan virtuaalikoneessa ilman emulaattoria. Tarkoitus on mahdollistaa nopea tdd-sykli ja helpompi integrointi jatkuvan integroinnin palveluihin. Normaalisti Android-kirjaston luokat palauttavat kutsuttaessa ohjelmointiympäristöstä ajoaikaisen poikkeuksen, mutta Robolectric korvaa nämä luokat varjototeutuksilla, jotka palauttavat poikkeuksen sijaan tyhjän oletusvastauksen, kuten null, 0 tai false, tai jos Robolectricissa on kyseistä metodia varten olemassa varjototeutus, se palauttaa toteutuksen määrittelemän paluuarvon.
 
-Robolectricin varjoluokkien käytön vaihtoehtona on jonkin jäljittelijäkehyksen käyttäminen Androidin kirjaston korvaamiseen, mutta tämä on hyvin työläs ja verboosi tapa kirjoittaa testejä. Lisäksi tällöin testejä kirjoittaessa täytyy tuntea testattavan metodin toiminta hyvin tarkasti, jotta jäljittelijätoteutukset saadaan kirjoitettua. Robolectricin varjoluokat mahdollistavat enemmän musta laatikko -tyyppisen testauksen \cite{robolectric}.
+Robolectricin varjoluokkien käytön vaihtoehtona on jonkin jäljittelijäkehyksen käyttäminen Androidin kirjaston korvaamiseen, mutta tämä tapa kirjoittaa testejä on hyvin työläs, koska koodirivejä kertyy väistämättä paljon. Lisäksi tällöin testejä kirjoitettaessa täytyy tuntea testattavan metodin toiminta hyvin tarkasti, jotta jäljittelijätoteutukset saadaan kirjoitettua. Robolectricin varjoluokat mahdollistavat enemmän musta laatikko -tyyppisen testauksen \cite{robolectric}.
 
 \subsection{Aiempaa tutkimusta}
 
 Sadeh et al. vertasivat Androidin aktiviteettien yksikkötestausta JUnitilla, Androidin omilla yksikkötestityökaluilla sekä Robolectricilla \cite{sadehetal11}. JUnitilla testattaessa ongelmaksi muodostui, että ohjelmakoodia jouduttiin melko rajusti muokkaamaan, jotta luokkien yksikkötestaus onnistui. Tämä tekee ohjelman ylläpidon vaikeaksi. JUnitin hyvä puoli oli erittäin nopea testien ajonopeus. Robolectricillä testien tekeminen taas oli lähes yhtä helppoa kuin Androidin omilla työkaluilla. Androidin työkaluihin verrattuna Robolectricin vahvuudet olivat virhepaikkojen paikantamisen helppous ja testien suoritusnopeus. Robolectric-testit ajautuivat viisi kertaa nopeammin kuin Androidin työkaluilla ajetut testit, koska Androidin työkaluilla kirjoitetut testit ajetaan Dalvik-emulaattorilla, Robolectric taas suoraan Javalla. Androidin omien työkalujen suurin vahvuus oli testien kirjoittamisen helppous.
 
-Sadeh et al. eivät käyttäneet JUnit-testeissään mitään jäljittelijätyökalua, joten testeissä testiluokan riippuvuudet jäljiteltiin tekemällä niistä staattisia sisäluokkia testiluokan sisään. Tämä on erittäin verboosi tapa ja vaikutti osaltaan siihen, miksi puhdas JUnit-testi näytti niin hankalalta. Androidin kirjastoluokat on pakko eristää testattavasta luokasta Javan virtuaalikoneella testattaessa, koska Androidin kehitysympäristössä käytettävä paketti ei sisällä varsinaisesti luokkien sisältöä, vaan vain niiden luokkien julkiset rajapinnat, jolloin kehitystyökalut osaavat auttaa niiden käytössä, mutta varsinaista toteutusta ei ole.
+Sadeh et al. eivät käyttäneet JUnit-testeissään mitään jäljittelijätyökalua, joten testeissä testiluokan riippuvuudet jäljiteltiin tekemällä niistä staattisia sisäluokkia testiluokan sisään. Tämä vaatii paljon koodia ja vaikutti osaltaan siihen, miksi puhdas JUnit-testi näytti niin hankalalta. Androidin kirjastoluokat on pakko eristää testattavasta luokasta Javan virtuaalikoneella testattaessa, koska Androidin kehitysympäristössä käytettävä paketti ei sisällä varsinaisesti luokkien sisältöä, vaan vain niiden luokkien julkiset rajapinnat, jolloin kehitystyökalut osaavat auttaa niiden käytössä, mutta varsinaista toteutusta ei ole.
 
-Jeon \& Foster mainitsevat Robolectricin vahvuudeksi sen, että se pyörii Javan virtuaalikoneessa ja näin ohittaa hitaan vaiheen testeistä, kun sovellus pitää kääntää emulaattorille tai laitteelle testattavaksi. Robolectric ei heidän mielestään kuitenkaan sovellu kokonaisten sovellusten testaamiseen, koska sen varjoluokat eivät toteuta Androidin komponenteista kuin osan. Ylipäänsä Robolectric vertautuu Jeonin ja Fosterin mielestä paljolti Robotiumiin \cite{troyd}.
+Jeon \& Foster \cite{troyd} mainitsevat Robolectricin vahvuudeksi sen, että se pyörii Javan virtuaalikoneessa ja näin ohittaa testeistä hitaan vaiheen, jossa sovellus pitää kääntää emulaattorille tai laitteelle testattavaksi. Robolectric ei heidän mielestään kuitenkaan sovellu kokonaisten sovellusten testaamiseen, koska sen varjoluokat eivät toteuta Androidin komponenteista kuin osan.
 
-Allevato \& Edwards käyttivät Robolectriciä opetuskäyttöön tarkoitetun RoboLIFT-työkalun kehitykseen. Robolectric auttoi heitä ohittamaan emulaattorin käytön ja nopeuttamaan opiskelijoiden testisykliä ja automaattista arviointialgoritmia. Tässä käytössä Robolectricin ongelma oli, että se ohittaa käyttöliittymän piirtämisen kokonaan ja muunmuassa näkymien onDraw()-metodia ei kutsuta ollenkaan. Tämän seurauksena esimerksi näkymän leveys on aina 0 pikseliä, jolloin sellaiset testit, joilla haluttiin klikata näytöllä johonkin suhteelliseen kohtaan (vaikkapa keskelle) eivät toimineet oikein \cite{robolift}.
+Allevato \& Edwards \cite{robolift} käyttivät Robolectriciä opetuskäyttöön tarkoitetun RoboLIFT-työkalun kehitykseen. Robolectric auttoi heitä ohittamaan emulaattorin käytön ja nopeuttamaan opiskelijoiden testisykliä ja automaattista arviointialgoritmia. Tässä käytössä Robolectricin ongelma oli, että se ohittaa käyttöliittymän piirtämisen kokonaan ja muunmuassa näkymien onDraw()-metodia ei kutsuta ollenkaan. Tämän seurauksena esimerksi näkymän leveys on aina 0 pikseliä, jolloin sellaiset testit, joilla haluttiin klikata näytöllä johonkin suhteelliseen kohtaan (vaikkapa keskelle) eivät toimineet oikein.
 
 \subsection{Testiprojekti}
 
-\begin{figure}[htb]
+\begin{figure}[h]
+\centering
 \includegraphics[width=60mm]{peli_screenshot.png}
 \caption{Ruutukaappaus testiohjelman pelinäkymästä} \label{peli_screenshot}
 \end{figure}
 
 Yksikkötestaustyökaluja testasin itse tehdyllä demoprojektilla. Kyseessä on yksinkertainen peli, jonka pelinäkymästä on ruutukaappaus kuvassa \ref{peli_screenshot}. Pelissä ohjataan kosketusnäytöllä painamalla punaista palloa ja pyritään väistämään ympäriinsä pomppivia sinisiä palloja. Kun peli päättyy, palataan takaisin päänäkymään, josta on ruutukaappaus kuvassa \ref{mainactivity}. Tästä näkymästä voi aloittaa uuden pelin ja lisäksi näkee, montako sekuntia edellinen peli kesti.
 
-\begin{figure}[htb]
+\begin{figure}[h]
+\centering
 \includegraphics[width=60mm]{peli_mainactivity.png}
 \caption{Testiohjelman päänäkymä} \label{mainactivity}
 \end{figure}
 
 Peli koostuu kahdesta aktiviteetista, yksinkertaisemmasta MainActivitysta sekä hieman monimutkaisemmasta GameActivitysta, jonka yksikkötestaukseen keskityn. Itse peliä ohjaa GameView-luokka, joka on yhtä aikaa näkymä ja kontrolleri MVC-suunnittelumallin mukaisesti. Malleja ovat GameClock, joka kuvaa pelikelloa, sekä Circle, joka kuvaa yhtä ruudulla näkyvää ympyrää. GameActivity toteuttaa lisäksi OnGameEndListener-rajapinnan, jonka avulla GameView ilmoittaa pelin päättymisestä ja pistemäärästä. Pelin luokkakaavio on esitetty kuvassa \ref{game_classdiagram}.
 
-\begin{figure}[htb]
+\begin{figure}[h]
+\centering
 \includegraphics[width=105mm]{peli_luokkakaavio.png}
 \caption{Testiohjelman luokkakaavio} \label{game_classdiagram}
 \end{figure}
@@ -54,12 +59,10 @@ public class CustomRobolectricTestRunner extends RobolectricTestRunner {
 }
 \end{lstlisting}
 
-Robolectric-testejä varten luodaan oma tavallinen Java-projekti Eclipsessä, joka laitetaan viittaamaan Android-projektin koodiin. Testiprojektin build pathiin tarvitaan Robolectricin jar-paketti, sekä Androidin android.jar sekä maps.jar -paketit. Robolectricin paketin pitää olla riippuvuuslistassa ennen Android-paketteja, jotta se toimii. Tämän jälkeen testejä voi ohjelmoida kuten tavallisia JUnit-testejä.
+Robolectric-testejä varten luodaan oma tavallinen Java-projekti Eclipsessä, joka laitetaan viittaamaan Android-projektin koodiin. Testiprojektin käännöspolkuun tarvitaan Robolectricin jar-paketti, sekä Androidin android.jar sekä maps.jar -paketit. Robolectricin paketin pitää olla riippuvuuslistassa ennen Android-paketteja, jotta se toimii. Tämän jälkeen testejä voi ohjelmoida kuten tavallisia JUnit-testejä.
 
 \subsection{Perusominaisuudet}
-\label{basic_unittests}
-
-Aktiviteetin elinkaarimetodien testaus on olennaisin osa Android-sovellusten yksikkötestauksesta. 
+\label{basic_unittests} 
 
 \begin{lstlisting}[float,label=robolectric_activitytest,caption=Yksinkertainen aktiviteettiyksikkötesti Robolectricilla]
 @RunWith(CustomRobolectricTestRunner.class)
@@ -89,7 +92,7 @@ public class GameActivityTest {
 }
 \end{lstlisting}
 
-Listauksessa \ref{robolectric_activitytest} on yksinkertainen aktiviteettiyksikkötesti Robolectricillä toteutettuna. Robolectricin testit ovat yhteensopivia JUnitin 4. version kanssa, mikä mahdollistaa annotaatioiden käytön testeissä. @RunWith-annotaatiolla määritellään testien ajossa käytettävä testiajuri (\emph{runner}). Testissä käytetään luvussa \ref{robolectric_install} esiteltyä ajuria. @Before-annotaatiolla ilmaistaan metodit, jotka on ajettava ennen testejä ja @Test-annotaatiolla ajettavat testit.
+Aktiviteetin elinkaarimetodien testaus on olennaisin osa Android-sovellusten yksikkötestauksesta. Listauksessa \ref{robolectric_activitytest} on yksinkertainen aktiviteettiyksikkötesti Robolectricillä toteutettuna. Robolectricin testit ovat yhteensopivia JUnitin 4. version kanssa, mikä mahdollistaa annotaatioiden käytön testeissä. @RunWith-annotaatiolla määritellään testien ajossa käytettävä testiajuri (\emph{runner}). Testissä käytetään luvussa \ref{robolectric_install} esiteltyä ajuria. @Before-annotaatiolla ilmaistaan metodit, jotka on ajettava ennen testejä ja @Test-annotaatiolla ajettavat testit.
 
 setUp()-metodissa alustetaan testattava aktiviteetti ja kutsutaan sen onCreate()-metodia. Robolectric havaitsee automaattisesti Androidin kirjastometodien kutsun ja korvaa ne Robolectricin toteutuksella, jotta ne toimivat testissä. Siksi aktiviteetti voidaan alustaa suoraan konstruktorilla ja kutsua sen onCreate()-metodia toisin kuin AndroidUnitTestissä, jossa aktiviteetti käynnistetään AndroidUnitTestCase-luokan tarjoamien apumetodien avulla.
 
@@ -207,7 +210,6 @@ public void testActivityInitializesGameWithRunningStateWithMock() throws Excepti
 Listauksessa \ref{mock_test_robolectric} on esitetty edellisen listauksen aliluokkaa käyttävä Robolectric-testi. Ensimmäisellä rivillä luodaan Mockiton jäljittelijäolio GameView-luokasta. Toisella rivillä luodaan testattavan aktiviteetin aliluokka, jolle syötetään jäljitelty näkymä konstruktoriparametrina. Sitten kutsutaan onCreate-metodia, kuten listauksen \ref{robolectric_activitytest} vastaavassa testissä. Testin läpäisy testataan Mockiton verify-metodilla, joka varmistaa, että parametrina annettua jäljittelijäolion annettua metodia kutsuttiin annetulla parametrillä.
 
 \begin{lstlisting}[float,label=mock_test_android, caption=Jäljittelyä käyttävä testi AndroidUnitTestillä]
-@Test
 public void testActivityInitializesGameWithRunningStateWithMock() throws Exception {
 	GameView gameView = mock(GameView.class);
 	MockGameActivity.setView(gameView);
@@ -233,20 +235,20 @@ Robolectricin vahvuudeksi mainitaan toistuvasti sen testien ajonopeus. Testien a
 \label{unittest_timing}
 \end{table}
 
-Testasin ensin isomman testisetin ajonopeutta. Kopioin aiemmin luvussa esitellyn testiluokan jäljittelijätestin kanssa 32 erilliseksi testiluokaksi niin, että testimetodeita kertyi yhteensä 128. Ajoin kaikki testit yhtenä sarjana ja annoin Eclipsen ottaa aikaa testien suorituksesta. Tähän aikaan ei sisälly sitä aikaa, joka kuluu JUnitin käynnistymiseen, vain itse testien suoritusaika. Toistin testit viisi kertaa ja testikestojen keskiarvo, maksimi ja minimi on esitetty taulukossa \ref{unittest_timing}. Testit ajoin Macbook Pro:lla OS X versiolla 10.7.5, joka oli varustettu 2.7Ghz Intel core i7 -tuplaydinprosessorilla ja 8 gigatavun muistilla.
+Testasin ensin isomman testisetin ajonopeutta. Kopioin aiemmin luvussa esitellyn testiluokan jäljittelijätestin kanssa 32 erilliseksi testiluokaksi niin, että testimetodeita kertyi yhteensä 128. Ajoin kaikki testit yhtenä sarjana ja annoin Eclipsen ottaa aikaa testien suorituksesta. Tähän aikaan ei sisälly sitä aikaa, joka kuluu JUnitin käynnistymiseen, vain itse testien suoritusaika. Toistin testit viisi kertaa ja testikestojen keskiarvo, maksimi ja minimi on esitetty taulukossa \ref{unittest_timing}. Testit ajoin Macbook Pro:lla OS X versiolla 10.7.5, joka oli varustettu 2,7Ghz Intel core i7 -tuplaydinprosessorilla ja 8 gigatavun muistilla.
 
 Robolectricin testit kestivät keskimäärin 1,59 sekuntia, AndroidUnitTestilla 44,10 sekuntia. Testien ajaminen emulaattorissa oli siis noin 27 kertaa hitaampaa kuin Robolectricilla JVM:llä. Koska testattava sovellus ja itse testit ovat hyvin yksinkertaisia, on aikaero todennäköisesti vielä suurempi laajempaa sovellusta testattaessa. Robolectricin lupaus nopeammista yksikkötesteistä vaikuttaa siis toteutuvan.
 
-Testisarjan keston lisäksi tutkin yksittäisten testien kestoja. Erityisen kauan emulaattorissa ajetuista testeistä kesti ensimmäisen testiluokan jäljittelijätesti. Sen ajo kesti jokaisella ajokerralla yli 12 sekuntia, eli yli 25\% koko testisarjan kestosta. Tämä johtuu siitä, että Mockito muokkaa ohjelman tavukoodia toimintaansa varten ja sen ensimmäinen alustus on hyvin hidas. Sama hitaus oli havaittavissa myös Robolectric-testeissä: ensimmäinen mock-testi kesti noin 0.3 sekuntia, mikä on noin 19\% koko Robolectric-testisarjasta. Suhteellinen hidastuminen on siis verrattavissa AndroidUnitTestillä ajettuihin testeihin.
+Testisarjan keston lisäksi tutkin yksittäisten testien kestoja. Erityisen kauan emulaattorissa ajetuista testeistä kesti ensimmäisen testiluokan jäljittelijätesti. Sen ajo kesti jokaisella ajokerralla yli 12 sekuntia, eli yli 25\% koko testisarjan kestosta. Tämä johtuu siitä, että Mockito muokkaa ohjelman tavukoodia toimintaansa varten ja sen ensimmäinen alustus on hyvin hidas. Sama hitaus oli havaittavissa myös Robolectric-testeissä: ensimmäinen mock-testi kesti noin 0,3 sekuntia, mikä on noin 19\% koko Robolectric-testisarjasta. Suhteellinen hidastuminen on siis verrattavissa AndroidUnitTestillä ajettuihin testeihin.
 
-Robolectricillä myös kaikkein ensimmäinen testi on suhteessa hyvin hidas, noin 0.5 sekuntia. Robolectric toimii tavukooditason muokkauksessa Mockiton tavoin instrumentoidessaan testattavaa sovellusta toimimaan Robolectricin varjototeutusten kanssa, joten ensimmäisen testin suhteellinen hitaus johtunee samasta syystä kuin Mockitolla.
+Robolectricillä myös kaikkein ensimmäinen testi on suhteessa hyvin hidas, noin 0,5 sekuntia. Robolectric toimii tavukooditason muokkauksessa Mockiton tavoin instrumentoidessaan testattavaa sovellusta toimimaan Robolectricin varjototeutusten kanssa, joten ensimmäisen testin suhteellinen hitaus johtunee samasta syystä kuin Mockitolla.
 Nämä seikat eivät kuitenkaan muuta kokonaiskuvaa siitä, että testien ajaminen on todella paljon nopeampaa Robolectricillä kuin AndroidUnitTestillä.
 
 \begin{table}[h]
 \centering
 \begin{tabular}{ l l l }
    & Ensimmäisen testin alkuun (s) & Koko testisarjan loppuun \\
-  Robolectric & 2.7 & 4.3 \\
+  Robolectric & 2,7 & 4,3 \\
   AndroidUnitTest & 36 & 80 \\
 \end{tabular}
 \caption{Testisarjan kesto alustus mukaanlukien}
@@ -303,7 +305,7 @@ public class EditNote extends ActionBarActivity {
 }
 \end{lstlisting}
 
-Koodin laadun suhteen yksikkötestaus on herkkää: alunperin tarkoitukseni oli tehdä yksikkötestaus luvussa \ref{tomdroid} esiteltyä sovellusta vasten kuten toiminnallinen testauskin, mutta koska sovellusta ei ollut mitenkään tehty yksikkötestaus mielessä, osoittautui tämä mahdottomaksi.
+Koodin laadun suhteen yksikkötestaus on herkkää: alunperin tarkoitukseni oli tehdä yksikkötestaus luvussa \ref{tomdroid} esiteltyä sovellusta vasten kuten toiminnallinen testauskin. Tämä ei kuitenkaan onnistunut, koska sovellusta ei ollut mitenkään tehty yksikkötestaus mielessä, osoittautui tämä mahdottomaksi.
 
 Aloitin yrittämällä testata muistikirjan muokkausnäkymässä, että aktiviteetin käynnistys lataa muistikirjan sisällön. Listauksessa \ref{tomdroid_example} näkyy EditNote-aktiviteetin koodi, joka liittyy muistikirjan sisällön asettamiseen. onCreate()-metodin sisältö on suoraviivainen: content-muuttuja alustetaan ja aikeelta pyydetään uri, joka on muistikirjan tunniste. onResume()-metodissa kutsutaan yksityistä handleNoteUri()-metodia. Tässä metodissa pyydetään muistikirja NoteManagerin staattisella getNote()-metodilla ja jos muistikirja löytyy, pyydetään muistikirjalta sen sisältö getNoteContent()-metodilla, joka ottaa parametrikseen käsittelijän, joka on EditNoten yksityinen sisäluokka. 
 
